@@ -51,6 +51,17 @@ CREATE TABLE users
     interest_sports           INT COMMENT '用户对体育类广告的兴趣度'
 ) COMMENT '存储用户信息和兴趣偏好的表';
 
+-- 创建网站运营者表
+CREATE TABLE website_operators
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY COMMENT '网站运营者唯一标识符',
+    username    VARCHAR(50)  NOT NULL UNIQUE COMMENT '运营者登录账号',
+    password    VARCHAR(255) NOT NULL COMMENT '运营者登录密码（应该进行加密存储）',
+    website_url VARCHAR(255) COMMENT '运营的网站URL',
+    token       VARCHAR(255) COMMENT '用于身份验证或API访问的令牌'
+) COMMENT '存储网站运营者信息的表';
+
+
 -- 添加外键约束
 ALTER TABLE advertisements
     ADD CONSTRAINT fk_advertiser
