@@ -49,5 +49,20 @@ public class AdvertiserServiceImpl implements AdvertiserService {
     public void deleteById(Integer id) {
         advertiserMapper.deleteById(id);
     }
+
+    @Override
+    public Advertiser login(Advertiser advertiser) {
+        return advertiserMapper.findByUsernameAndPassword(advertiser);
+    }
+
+    @Override
+    public Advertiser register(Advertiser advertiser) {
+        Advertiser existingAdvertiser = advertiserMapper.findByUsername(advertiser);
+        if (existingAdvertiser != null) {
+            throw new RuntimeException("Username already exists");
+        }
+        advertiserMapper.insert(advertiser);
+        return advertiser;
+    }
 }
 

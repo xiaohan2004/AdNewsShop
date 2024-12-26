@@ -14,6 +14,9 @@ public interface AdministratorMapper {
     @Select("SELECT * FROM administrators WHERE id = #{id}")
     Administrator findById(Integer id);
 
+    @Select("SELECT * FROM administrators WHERE username = #{username} AND password = #{password}")
+    Administrator findByUsernameAndPassword(Administrator administrator);
+
     @Insert("INSERT INTO administrators(username, password) VALUES(#{username}, #{password})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Administrator administrator);
@@ -23,5 +26,8 @@ public interface AdministratorMapper {
 
     @Delete("DELETE FROM administrators WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT * FROM administrators WHERE username = #{username}")
+    Administrator findByUsername(Administrator administrator);
 }
 

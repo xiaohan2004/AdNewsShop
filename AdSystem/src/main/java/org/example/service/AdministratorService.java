@@ -10,5 +10,7 @@ public interface AdministratorService {
     Administrator create(Administrator administrator);
     Administrator update(Integer id, Administrator administrator);
     void deleteById(Integer id);
+    Administrator login(Administrator administrator);
+    Administrator register(Administrator administrator);
 }
 

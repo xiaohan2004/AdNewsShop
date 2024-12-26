@@ -10,5 +10,7 @@ public interface AdvertiserService {
     Advertiser create(Advertiser advertiser);
     Advertiser update(Integer id, Advertiser advertiser);
     void deleteById(Integer id);
+    Advertiser login(Advertiser advertiser);
+    Advertiser register(Advertiser advertiser);
 }
 

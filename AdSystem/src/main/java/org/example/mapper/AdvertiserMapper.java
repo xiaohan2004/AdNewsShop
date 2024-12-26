@@ -23,5 +23,11 @@ public interface AdvertiserMapper {
 
     @Delete("DELETE FROM advertisers WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT * FROM advertisers WHERE username = #{username}")
+    Advertiser findByUsername(Advertiser advertiser);
+
+    @Select("SELECT * FROM advertisers WHERE username = #{username} AND password = #{password}")
+    Advertiser findByUsernameAndPassword(Advertiser advertiser);
 }
 

@@ -23,5 +23,11 @@ public interface WebsiteOperatorMapper {
 
     @Delete("DELETE FROM website_operators WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT * FROM website_operators WHERE username = #{username} AND password = #{password}")
+    WebsiteOperator findByUsernameAndPassword(WebsiteOperator websiteOperator);
+
+    @Select("SELECT * FROM website_operators WHERE username = #{username}")
+    WebsiteOperator findByUsername(WebsiteOperator websiteOperator);
 }
 

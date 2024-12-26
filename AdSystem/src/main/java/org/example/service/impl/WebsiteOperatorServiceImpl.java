@@ -49,5 +49,20 @@ public class WebsiteOperatorServiceImpl implements WebsiteOperatorService {
     public void deleteById(Integer id) {
         websiteOperatorMapper.deleteById(id);
     }
+
+    @Override
+    public WebsiteOperator login(WebsiteOperator websiteOperator) {
+        return websiteOperatorMapper.findByUsernameAndPassword(websiteOperator);
+    }
+
+    @Override
+    public WebsiteOperator register(WebsiteOperator websiteOperator) {
+        WebsiteOperator existingOperator = websiteOperatorMapper.findByUsername(websiteOperator);
+        if (existingOperator != null) {
+            throw new RuntimeException("Username already exists");
+        }
+        websiteOperatorMapper.insert(websiteOperator);
+        return websiteOperator;
+    }
 }
 

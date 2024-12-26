@@ -49,5 +49,20 @@ public class AdministratorServiceImpl implements AdministratorService {
     public void deleteById(Integer id) {
         administratorMapper.deleteById(id);
     }
+
+    @Override
+    public Administrator login(Administrator administrator) {
+        return administratorMapper.findByUsernameAndPassword(administrator);
+    }
+
+    @Override
+    public Administrator register(Administrator administrator) {
+        Administrator existingAdmin = administratorMapper.findByUsername(administrator);
+        if (existingAdmin != null) {
+            throw new RuntimeException("Username already exists");
+        }
+        administratorMapper.insert(administrator);
+        return administrator;
+    }
 }
 

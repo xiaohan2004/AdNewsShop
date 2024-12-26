@@ -10,5 +10,7 @@ public interface WebsiteOperatorService {
     WebsiteOperator create(WebsiteOperator websiteOperator);
     WebsiteOperator update(Integer id, WebsiteOperator websiteOperator);
     void deleteById(Integer id);
+    WebsiteOperator login(WebsiteOperator websiteOperator);
+    WebsiteOperator register(WebsiteOperator websiteOperator);
 }
 
