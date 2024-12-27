@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Default Title</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --text-color: #333;
+            --background-color: #f5f5f5;
+            --container-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ad-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--container-shadow);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .ad-header {
+            margin-bottom: 25px;
+        }
+
+        .ad-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .ad-type {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ad-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .ad-image {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .ad-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .ad-container {
+                padding: 20px;
+            }
+
+            .ad-title {
+                font-size: 1.5rem;
+            }
+
+            .ad-content {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ad-container {
+                padding: 15px;
+            }
+
+            .ad-type {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .ad-image {
+                max-height: 300px;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-color: #e1e1e1;
+                --background-color: #1a1a1a;
+            }
+
+            .ad-container {
+                background-color: #2d2d2d;
+            }
+
+            .ad-content {
+                color: #d1d1d1;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <article class="ad-container">
+        <header class="ad-header">
+            <h1 class="ad-title" th:text="${title}">Advertisement Title</h1>
+            <span class="ad-type" th:text="${adType}">Advertisement Type</span>
+        </header>
+
+        <div th:if="${imageUrl}" class="ad-image-container">
+            <img class="ad-image" th:src="${imageUrl}" th:alt="${title}" loading="lazy">
+        </div>
+
+        <div class="ad-content" th:utext="${content}">
+            Advertisement Content
+        </div>
+    </article>
+</div>
+</body>
+</html>

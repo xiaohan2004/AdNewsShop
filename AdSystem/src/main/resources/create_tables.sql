@@ -6,6 +6,7 @@ USE ad_system;
 CREATE TABLE advertisements
 (
     id            INT AUTO_INCREMENT PRIMARY KEY COMMENT '广告唯一标识符',
+    title         VARCHAR(100) NOT NULL COMMENT '广告标题',
     content       TEXT        NOT NULL COMMENT '广告内容',
     ad_type       VARCHAR(50) NOT NULL COMMENT '广告类型或标签',
     image_url     VARCHAR(255) COMMENT '广告图片的URL地址',

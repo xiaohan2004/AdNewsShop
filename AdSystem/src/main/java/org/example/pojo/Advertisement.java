@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Advertisement {
     private Integer id;
+    private String title;
     private String content;
     private String adType;
     private String imageUrl;
