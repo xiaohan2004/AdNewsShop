@@ -12,27 +12,29 @@ import ReportDaily from "../views/Backstage/ReportDaily.vue";
 import ReportMonthly from "../views/Backstage/ReportMonthly.vue";
 import ReportYearly from "../views/Backstage/ReportYearly.vue";
 import ManagerUserInfo from "../views/Backstage/ManagerUserInfo.vue";
-import InternalStaffLogin from "../views/InternalStaffLogin.vue";
+import InternalStaffLogin from "../views/Login.vue";
 import TableStatus from "../views/Reception/TableStatus.vue";
 import DishStatus from "../views/Reception/DishStatus.vue";
 import OrderStatus from "../views/Reception/OrderStatus.vue";
 import WaiterUserInfo from "../views/Reception/WaiterUserInfo.vue";
-import CustomerLogin from "@/views/CustomerLogin.vue";
+
 import Selection from "@/views/Customer/Selection.vue";
 import OrderDishes from "@/views/Customer/OrderDishes.vue";
 import CustomerUserInfo from "@/views/Customer/CustomerUserInfo.vue";
-import Reservation from "@/views/Customer/Reservation.vue";
-import InternalStaffRegister from "@/views/InternalStaffRegister.vue";
-import CustomerRegister from "@/views/CustomerRegister.vue";
+
 import DishCategory from "@/views/Backstage/DishCategory.vue";
 import SystemLog from "@/views/Backstage/SystemLog.vue";
+import AdministratorRegister from "@/views/Register/AdministratorRegister.vue";
+import AdvertiserRegister from "@/views/Register/AdvertiserRegister.vue";
+import websiteOperatorRegister from "@/views/Register/websiteOperatorRegister.vue";
+import Login from "@/views/Login.vue";
 
 // 定义路由规则
 const routes = [
     // 默认重定向
     {
         path: "/",
-        redirect: "/customer-login", // 默认跳转到登录
+        redirect: "/login", // 默认跳转到登录
     },
 
     // 带导航栏和侧边栏的页面
@@ -76,34 +78,24 @@ const routes = [
     },
     // 不需要导航栏和侧边栏的页面
     {
-        path: "/internalStaff-login",
-        name: "InternalStaffLogin",
-        component: InternalStaffLogin,
+        path: "/login",
+        name: "Login",
+        component: Login,
     },
     {
-        path: "/internalStaff-register",
-        name: "InternalStaffRegister",
-        component: InternalStaffRegister,
+        path: "/administrator-register",
+        name: AdministratorRegister,
+        component: AdministratorRegister,
     },
     {
-        path: "/customer-login",
-        name: "CustomerLogin",
-        component: CustomerLogin,
+        path: "/advertiser-register",
+        name: AdvertiserRegister,
+        component: AdvertiserRegister,
     },
     {
-        path: "/customer-register",
-        name: "CustomerRegister",
-        component: CustomerRegister,
-    },
-    {
-        path: "/customer-selection",
-        name: "Selection",
-        component: Selection,
-    },
-    {
-        path: "/customer-reservation",
-        name: "Reservation",
-        component: Reservation,
+        path: "/websiteOperator-register",
+        name: websiteOperatorRegister,
+        component: websiteOperatorRegister,
     },
 
 

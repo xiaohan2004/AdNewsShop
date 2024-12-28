@@ -9,7 +9,7 @@ import router from "@/router";  // 导入 axios
 const account = ref('');
 const password = ref('');
 const confirmPassword = ref('');
-const role = ref(''); // 角色选择，0 为管理员，1 为服务员
+const websiteUrl = ref('');
 const checkCode = ref('');
 
 // 定义验证函数
@@ -39,12 +39,11 @@ const handleSubmit = async () => {
     const user = {
       username: account.value,
       password: password.value,
-      role: role.value === 'admin' ? 0 : 1,  // 映射为 0 或 1
-      status: 1,  // 默认设置为 1
+      websiteUrl: websiteUrl.value,
     };
 
     try {
-      api.post('/userregister', user).then(response => {
+      api.post('/websiteoperatorregister', user).then(response => {
         const {code, msg} = response.data;
         if (code === 1) {
           ElMessage.success('注册成功');
@@ -67,7 +66,7 @@ const handleSubmit = async () => {
   <div class="app-container">
     <!-- 全页面容器 -->
     <div class="register-container">
-      <h2 class="title">用户注册</h2>
+      <h2 class="title">互联网站长注册</h2>
       <form @submit.prevent="handleSubmit" class="register-form">
         <div class="form-item">
           <label for="account">账号</label>
@@ -83,16 +82,19 @@ const handleSubmit = async () => {
         </div>
         <div class="form-item">
           <label for="role">角色</label>
-          <select id="role" v-model="role" required>
-            <option value="" disabled selected>请选择角色</option>
-            <option value="admin">管理员</option>
-            <option value="staff">服务员</option>
-          </select>
+          <input id="role" value="互联网站长" disabled />
         </div>
+
+        <div class="form-item">
+          <label for="account">网址</label>
+          <input type="text" id="websiteUrl" v-model="websiteUrl" placeholder="请输入网址" required/>
+        </div>
+
         <div class="form-item">
           <label for="check">校验码</label>
           <input type="password" id="checkCode" v-model="checkCode" required/>
         </div>
+
         <div class="form-item">
           <button type="submit" class="submit-btn">注册</button>
         </div>
@@ -207,4 +209,3 @@ html, body {
   outline: none;
 }
 </style>
-
