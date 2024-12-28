@@ -1,11 +1,6 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <!-- 右上角订餐系统链接 -->
-      <div class="order-link">
-        <el-link @click="goToOrderSystem">订餐系统</el-link>
-      </div>
-
       <!-- 左侧走马灯 -->
       <div class="carousel-area">
         <ImageCarousel :items="carouselItems" :height="300" :width="300" />
@@ -13,7 +8,7 @@
 
       <!-- 右侧登录表单 -->
       <div class="form-area">
-        <h2 class="login-title">饭店管理系统</h2>
+        <h2 class="login-title">广告推送管理系统</h2>
 
         <el-form :model="{ username, password, role }" class="login-form">
           <el-form-item label="账号" required>
@@ -39,7 +34,8 @@
           <el-form-item label="身份">
             <el-radio-group v-model="role">
               <el-radio label="admin">管理员</el-radio>
-              <el-radio label="waiter">服务员</el-radio>
+              <el-radio label="advertiser">广告商</el-radio>
+              <el-radio label="websiteOperator">互联网站长</el-radio>
             </el-radio-group>
           </el-form-item>
 
@@ -59,24 +55,24 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
-import {ElMessage} from 'element-plus';
-import {useRouter} from 'vue-router';
+import { ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
 import api from "@/api/api";
-import ImageCarousel from "@/components/ImageCarousel.vue"; // Import the api instance
+import ImageCarousel from "@/components/ImageCarousel.vue";
 
 // 轮播图数据
 const carouselItems = ref([
-  { id: 1, imageUrl: 'https://ts1.cn.mm.bing.net/th/id/R-C.b4b94294fe8c65f40a05456fffcd6ab6?rik=6XICa5xrDuEwQA&riu=http%3a%2f%2fseopic.699pic.com%2fphoto%2f50099%2f7147.jpg_wh1200.jpg&ehk=fku5yLw06akkKP24OeNLwAr6%2bFoETtralLaKQVDf0so%3d&risl=&pid=ImgRaw&r=0', altText: 'Image 1' },
-  { id: 2, imageUrl: 'https://ts1.cn.mm.bing.net/th/id/R-C.2bc9c86f9a188e5c0975bbfb94cf766b?rik=qimcHt%2bIJ6jMFw&riu=http%3a%2f%2fn.sinaimg.cn%2fsinacn10114%2f680%2fw900h580%2f20190408%2fe954-hvhrcxn1100903.jpg&ehk=wnBXHeiqmFpFY%2bL74MlA2EYHsF370Ecp05z2jXMWPbQ%3d&risl=&pid=ImgRaw&r=0', altText: 'Image 2' },
-  { id: 3, imageUrl: 'https://n.sinaimg.cn/sinacn10121/77/w2048h1229/20190908/fba6-iekuaqs5277126.jpg', altText: 'Image 3' },
-  { id: 4, imageUrl: 'https://ts1.cn.mm.bing.net/th/id/R-C.c1cf981cc5dcb41b7f3e1771e9a10732?rik=AVWBHaSBFQON7g&riu=http%3a%2f%2fn.sinaimg.cn%2fsinacn10119%2f0%2fw2000h1200%2f20191031%2f5275-ihqyuym9420397.jpg&ehk=Bz4Ql73GN0vDatskuqYLxyudxmSqyebuRF0iJ4JYs7E%3d&risl=&pid=ImgRaw&r=0', altText: 'Image 4' },
+  { id: 1, imageUrl: 'https://img1.baidu.com/it/u=2858330742,3003911759&fm=253&fmt=auto&app=138&f=JPEG?w=660&h=440', altText: 'Image 1' },
+  { id: 2, imageUrl: 'https://pic.52112.com/2019/05/10/EPS-190510_31/4BgoqDahzU_small.jpg', altText: 'Image 2' },
+  { id: 3, imageUrl: 'https://pic.52112.com/2019/11/13/EPS-191113_334/SOprKaOvmK_small.jpg', altText: 'Image 3' },
+  { id: 4, imageUrl: 'https://pic.52112.com/2019/11/13/EPS-191113_334/CuS4tanRuo_small.jpg', altText: 'Image 4' },
 ]);
 
 // 表单数据
 const username = ref('');
 const password = ref('');
-const role = ref('admin'); // 默认选择服务员
+const role = ref('admin'); // 默认选择管理员
 
 // 获取路由实例
 const router = useRouter();
@@ -88,7 +84,21 @@ const handleLogin = async () => {
     return;
   }
 
-  let loginUrl = '/userlogin'; // Remove the base URL as it's already set in the api instance
+  let loginUrl;
+  switch (role.value) {
+    case 'admin':
+      loginUrl = '/administratorlogin';
+      break;
+    case 'advertiser':
+      loginUrl = '/advertiserlogin';
+      break;
+    case 'websiteOperator':
+      loginUrl = '/websiteoperatorlogin';
+      break;
+    default:
+      ElMessage.error('无效的角色选择');
+      return;
+  }
 
   try {
     const response = await api.post(loginUrl, {
@@ -96,21 +106,24 @@ const handleLogin = async () => {
       password: password.value
     });
 
-    const {code, msg, data} = response.data;
+    const { code, msg, data } = response.data;
 
     if (code === 1) {
       // 登录成功
-      ElMessage.success(`登录成功！身份：${role.value === 'admin' ? '管理员' : '服务员'}`);
+      ElMessage.success(`登录成功！身份：${getRoleName(role.value)}`);
 
       // 保存 JWT 到本地存储，data 直接就是 JWT
       localStorage.setItem('jwt', data);
 
-
       // 根据角色跳转到不同页面
       if (role.value === 'admin') {
-        goToPage('/backstage/table-management');
-      } else {
-        goToPage('/reception/table-status');
+        goToPage('/admin-dashboard');  // 管理员跳转到管理员主页
+      }
+      else if (role.value === 'advertiser') {
+        goToPage('/advertiser-dashboard');  // 广告商跳转到广告商主页
+      }
+      else if (role.value === 'websiteOperator') {
+        goToPage('/websiteOperator-dashboard');  // 网站长跳转到网站长主页
       }
     } else {
       // 登录失败
@@ -122,6 +135,20 @@ const handleLogin = async () => {
   }
 };
 
+// 获取角色名称
+const getRoleName = (role) => {
+  switch (role) {
+    case 'admin':
+      return '管理员';
+    case 'advertiser':
+      return '广告商';
+    case 'websiteOperator':
+      return '互联网站长';
+    default:
+      return '未知角色';
+  }
+};
+
 // 跳转方法
 const goToPage = (path) => {
   router.push(path).catch(err => {
@@ -129,16 +156,18 @@ const goToPage = (path) => {
   });
 };
 
-// 注册方法
+// 注册方法：根据角色跳转到不同的注册页面
 const goToRegister = () => {
-  goToPage('/internalStaff-register');
-};
-
-// 跳转到订餐系统
-const goToOrderSystem = () => {
-  goToPage('/customer-login');
+  if (role.value === 'admin') {
+    goToPage('/administrator-register');  // 管理员注册页面
+  } else if (role.value === 'advertiser') {
+    goToPage('/advertiser-register');  // 广告商注册页面
+  } else if (role.value === 'websiteOperator') {
+    goToPage('/websiteOperator-register');  // 网站长注册页面
+  }
 };
 </script>
+
 
 <style scoped>
 /* 登录页面布局 */
