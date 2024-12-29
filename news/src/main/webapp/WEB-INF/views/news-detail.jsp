@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>${news.title} - News Website</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 <header>
@@ -21,17 +22,22 @@
         <h1>${news.title}</h1>
         <p>Category: ${news.category}</p>
         <p>Published: ${news.publishDate}</p>
-        <div>
+        <div class="news-content">
             ${news.content}
         </div>
     </article>
 
-
+    <aside id="ad-space">
+        <!-- Ad space -->
+        <div id="ad-container"></div>
+    </aside>
 </main>
 
 <footer>
     <p>&copy; 2024 News Website. All rights reserved.</p>
 </footer>
+
+<script src="${pageContext.request.contextPath}/js/ads.js"></script>
 </body>
 </html>
 
