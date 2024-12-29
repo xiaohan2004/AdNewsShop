@@ -17,7 +17,7 @@ const goToPage = (path) => {
 const handleLogout = () => {
   localStorage.removeItem('jwt');
   // 重定向到登录页面
-  router.push('/internalStaff-login');
+  router.push('/login');
 };
 
 function parseJWT(token) {
@@ -42,7 +42,7 @@ const fetchUserInfo = async () => {
     const { payload } = parseJWT(token)
     const userId = payload.userId
 
-    const response = await api.get(`/api/users/${userId}`)
+    const response = await api.get(`/api/advertisers/${userId}`)
     if (response.data.code === 1) {
       const userData = response.data.data
       username.value = userData.username

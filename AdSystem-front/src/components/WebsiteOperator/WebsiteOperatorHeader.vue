@@ -1,9 +1,9 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import {onMounted, ref} from "vue";
-import api from "@/api/api";
-import {ElMessage} from "element-plus";
+import { ElMessage } from 'element-plus'
+import api from '@/api/api'
 
 const router = useRouter()
 const username = ref('用户') // Default value
@@ -17,7 +17,7 @@ const goToPage = (path) => {
 const handleLogout = () => {
   localStorage.removeItem('jwt');
   // 重定向到登录页面
-  router.push('/internalStaff-login');
+  router.push('/login');
 };
 
 function parseJWT(token) {
@@ -42,7 +42,7 @@ const fetchUserInfo = async () => {
     const { payload } = parseJWT(token)
     const userId = payload.userId
 
-    const response = await api.get(`/api/users/${userId}`)
+    const response = await api.get(`/api/website-operators/${userId}`)
     if (response.data.code === 1) {
       const userData = response.data.data
       username.value = userData.username
@@ -62,7 +62,7 @@ onMounted(() => {
 
 <template>
   <div style="height: 50px; border-bottom: 1px solid #ccc; display: flex; align-items: center;">
-    <div style="width: 150px; text-align: center; font-weight: bold; color: dodgerblue;">前台管理</div>
+    <div style="width: 150px; text-align: center; font-weight: bold; color: dodgerblue;">后台管理</div>
     <div style="flex: 1;"></div>
     <div style="width: 100px;">
       <el-dropdown>
@@ -74,7 +74,7 @@ onMounted(() => {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="goToPage('/reception/waiter-user')">个人信息</el-dropdown-item>
+            <el-dropdown-item @click="goToPage('/backstage/manager-user')">个人信息</el-dropdown-item>
             <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>

@@ -19,12 +19,6 @@
           </el-descriptions-item>
           <el-descriptions-item label="用户编号">{{ userInfo.id }}</el-descriptions-item>
           <el-descriptions-item label="用户名">{{ userInfo.username }}</el-descriptions-item>
-          <el-descriptions-item label="身份">{{ userInfo.role }}</el-descriptions-item>
-          <el-descriptions-item label="状态">
-            <el-tag size="small" :type="userInfo.status === '启用' ? 'success' : 'danger'">
-              {{ userInfo.status }}
-            </el-tag>
-          </el-descriptions-item>
           <el-descriptions-item label="个人简介" align="center">
             热爱工作，积极向上。
           </el-descriptions-item>
@@ -74,16 +68,14 @@ export default {
         }
 
         const { payload } = parseJWT(token)
-        const userId = payload.userId
+        const id = payload.id
 
-        const response = await api.get(`/api/users/${userId}`)
+        const response = await api.get(`/api/administrators/${id}`)
         if (response.data.code === 1) {
           const userData = response.data.data
           userInfo.value = {
-            id: userData.userId,
+            id: userData.id,
             username: userData.username,
-            role: userData.role === 0 ? '管理员' : '服务员',
-            status: userData.status === 0 ? '禁用' : '启用'
           }
         } else {
           throw new Error(response.data.msg || 'Failed to fetch user info')
