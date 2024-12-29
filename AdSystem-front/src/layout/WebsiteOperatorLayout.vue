@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Header from "../components/Reception/ReceptionHeader.vue";
-import Aside from "../components/Reception/ReceptionAside.vue";
+import Header from "@/components/WebsiteOperator/WebsiteOperatorHeader.vue";
+import Aside from "@/components/WebsiteOperator/WebsiteOperatorAside.vue";
 
 export default {
   name: "Layout",

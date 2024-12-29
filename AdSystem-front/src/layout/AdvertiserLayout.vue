@@ -5,7 +5,6 @@
 
     <!-- 主体部分：左侧侧边栏 + 右侧内容区域 -->
     <div class="main-content">
-      <Aside />
       <div class="content">
         <router-view /> <!-- 动态加载右侧内容 -->
       </div>
@@ -14,8 +13,8 @@
 </template>
 
 <script>
-import Header from "../components/Backstage/BackstageHeader.vue";
-import Aside from "../components/Backstage/BackstageAside.vue";
+import Header from "@/components/Advertiser/AdvertiserHeader.vue";
+import Aside from "@/components/Advertiser/AdvertiserAside.vue";
 
 export default {
   name: "Layout",
