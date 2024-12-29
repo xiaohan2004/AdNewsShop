@@ -117,13 +117,13 @@ const handleLogin = async () => {
 
       // 根据角色跳转到不同页面
       if (role.value === 'admin') {
-        goToPage('/admin-dashboard');  // 管理员跳转到管理员主页
+        goToPage('/admin/dash-board');  // 管理员跳转到管理员主页
       }
       else if (role.value === 'advertiser') {
-        goToPage('/advertiser-dashboard');  // 广告商跳转到广告商主页
+        goToPage('/');  // 广告商跳转到广告商主页
       }
       else if (role.value === 'websiteOperator') {
-        goToPage('/websiteOperator-dashboard');  // 网站长跳转到网站长主页
+        goToPage('/');  // 网站长跳转到网站长主页
       }
     } else {
       // 登录失败

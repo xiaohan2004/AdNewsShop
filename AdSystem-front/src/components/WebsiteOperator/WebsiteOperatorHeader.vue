@@ -40,9 +40,9 @@ const fetchUserInfo = async () => {
     }
 
     const { payload } = parseJWT(token)
-    const userId = payload.userId
+    const id = payload.id
 
-    const response = await api.get(`/api/website-operators/${userId}`)
+    const response = await api.get(`/api/website-operators/${id}`)
     if (response.data.code === 1) {
       const userData = response.data.data
       username.value = userData.username
@@ -62,7 +62,7 @@ onMounted(() => {
 
 <template>
   <div style="height: 50px; border-bottom: 1px solid #ccc; display: flex; align-items: center;">
-    <div style="width: 150px; text-align: center; font-weight: bold; color: dodgerblue;">后台管理</div>
+    <div style="width: 150px; text-align: center; font-weight: bold; color: dodgerblue;">网站主后台管理</div>
     <div style="flex: 1;"></div>
     <div style="width: 100px;">
       <el-dropdown>

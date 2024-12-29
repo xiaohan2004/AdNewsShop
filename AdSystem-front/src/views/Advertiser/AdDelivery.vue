@@ -186,9 +186,6 @@ export default {
     })
     const currentPage = ref(1)
     const pageSize = ref(8)
-    const error = ref(null) // Added error variable
-    const loading = ref(true) // Added loading variable
-
 
     const filteredAdvertisementData = computed(() => advertisementData.value)
     const paginatedAdvertisementData = computed(() => {
@@ -199,7 +196,7 @@ export default {
 
     const fetchAdvertisementData = async () => {
       try {
-        const response = await api.get('/api/advertisements') // Changed to fetch all advertisements
+        const response = await api.get('/api/advertisements')
         if (response.data.code === 1) {
           advertisementData.value = response.data.data.map(advertisement => ({
             ...advertisement,
@@ -212,8 +209,6 @@ export default {
       } catch (error) {
         console.error('Error fetching data:', error)
         ElMessage.error('获取广告数据失败')
-      } finally {
-        loading.value = false; // Update loading status after fetching data
       }
     }
 
@@ -348,8 +343,6 @@ export default {
       newAdvertisement,
       currentPage,
       pageSize,
-      error, // Added error to return
-      loading, // Added loading to return
       editRow,
       saveRow,
       deleteRow,
@@ -411,4 +404,3 @@ export default {
   text-align: right;
 }
 </style>
-

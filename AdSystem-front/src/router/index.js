@@ -5,13 +5,8 @@ import CustomerLayout from "@/layout/AdvertiserLayout.vue";
 
 // Import all your view components here (as you had them before)
 
-import TableStatus from "../views/Reception/TableStatus.vue";
-import DishStatus from "../views/Reception/DishStatus.vue";
-import OrderStatus from "../views/Reception/OrderStatus.vue";
-import WaiterUserInfo from "../views/Reception/WaiterUserInfo.vue";
 
-import OrderDishes from "@/views/Customer/OrderDishes.vue";
-import CustomerUserInfo from "@/views/Customer/CustomerUserInfo.vue";
+import CustomerUserInfo from "@/views/Advertiser/CustomerUserInfo.vue";
 
 import SystemLog from "@/views/Administrator/SystemLog.vue";
 import AdministratorRegister from "@/views/Register/AdministratorRegister.vue";
@@ -26,6 +21,8 @@ import Administrators from "@/views/Administrator/Administrators.vue";
 import Advertisers from "@/views/Administrator/Advertisers.vue";
 import WebsiteOperators from "@/views/Administrator/WebsiteOperators.vue";
 import AdminUserInfo from "@/views/Administrator/AdminUserInfo.vue";
+import AdvertiserLayout from "@/layout/AdvertiserLayout.vue";
+import AdDelivery from "@/views/Advertiser/AdDelivery.vue";
 
 // 定义路由规则
 const routes = [
@@ -52,14 +49,12 @@ const routes = [
         ],
     },
     {
-        path: "/reception",
-        component: ReceptionLayout, // 带导航栏和侧边栏的布局
+        path: "/advertiser",
+        component: AdvertiserLayout, // 带导航栏和侧边栏的布局
         meta: {requiresAuth: true},// meta requiresAuth字段表示该路由需要登录,但是现在导航守卫用的是排除方法
         children: [
-            {path: "table-status", name: "TableStatus", component: TableStatus},
-            {path: "dish-status", name: "DishStatus", component: DishStatus},
-            {path: "order-status", name: "OrderStatus", component: OrderStatus},
-            {path: "waiter-user", name: "WaiterUserInfo", component: WaiterUserInfo},
+            {path: "ad-delivery", name: "AdDelivery", component: AdDelivery},
+
         ],
     },
     {
@@ -67,8 +62,8 @@ const routes = [
         component: CustomerLayout,
         meta: {requiresAuth: true},// meta requiresAuth字段表示该路由需要登录,但是现在导航守卫用的是排除方法
         children: [
-            {path: "order-dishes", name: "OrderDishes", component: OrderDishes},
-            {path: "customer-user", name: "CustomerUserInfo", component: CustomerUserInfo},
+            // {path: "order-dishes", name: "OrderDishes", component: OrderDishes},
+            // {path: "customer-user", name: "CustomerUserInfo", component: CustomerUserInfo},
         ],
     },
     // 不需要导航栏和侧边栏的页面
