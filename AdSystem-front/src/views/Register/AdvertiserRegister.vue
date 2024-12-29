@@ -10,7 +10,6 @@ const account = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const companyName = ref('');
-const checkCode = ref('');
 
 // 定义验证函数
 const validateForm = () => {
@@ -25,10 +24,6 @@ const validateForm = () => {
     return false;
   }
 
-  if (checkCode.value !== 'xiaohan') {
-    ElMessage.error('校验码错误');
-    return false;
-  }
   // 其他业务逻辑验证
   return true;
 };
@@ -89,11 +84,6 @@ const handleSubmit = async () => {
             <label for="account">公司名</label>
             <input type="text" id="companyName" v-model="companyName" placeholder="请输入公司名" required/>
           </div>
-
-        <div class="form-item">
-          <label for="check">校验码</label>
-          <input type="password" id="checkCode" v-model="checkCode" required/>
-        </div>
 
         <div class="form-item">
           <button type="submit" class="submit-btn">注册</button>
