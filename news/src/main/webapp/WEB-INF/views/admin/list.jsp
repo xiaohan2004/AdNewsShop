@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel - News List</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 <header>
