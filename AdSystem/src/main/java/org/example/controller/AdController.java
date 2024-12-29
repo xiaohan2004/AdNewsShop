@@ -27,6 +27,10 @@ public class AdController {
             log.warn("Invalid ad id: {}", id);
             return "404";
         }
+        switch (id) {
+            case 666:
+                return "kulou";
+        }
         Advertisement ad = advertisementService.findById(id);
         if (ad == null) {
             log.warn("Advertisement not found with id: {}", id);
