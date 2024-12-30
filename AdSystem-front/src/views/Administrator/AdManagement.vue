@@ -149,7 +149,7 @@
               :on-change="handleNewAdvertisementImageChange"
           >
             <img v-if="newAdvertisement.imageUrl" :src="newAdvertisement.imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <img v-else src="https://pic.616pic.com/ys_bnew_img/00/46/51/qGEhxCt0bx.jpg" class="avatar-uploader-icon">
           </el-upload>
         </el-form-item>
         <el-form-item label="广告商编号">
@@ -185,7 +185,7 @@ export default {
       advertiserId: '',
     })
     const currentPage = ref(1)
-    const pageSize = ref(8)
+    const pageSize = ref(7)
     const error = ref(null) // Added error variable
     const loading = ref(true) // Added loading variable
 
@@ -222,27 +222,28 @@ export default {
     }
 
     const uploadImage = async (file) => {
-      const formData = new FormData()
-      formData.append('imageUrl', file)
+      const formData = new FormData();
+      formData.append('img', file);  // 这里将字段名改为 'img'
 
       try {
         const response = await api.post('/upload', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
+            'Content-Type': 'multipart/form-data', // 保持这个 Content-Type 设置
+          },
+        });
 
         if (response.data.code === 1) {
-          return response.data.data
+          return response.data.data;  // 返回图片URL或其他数据
         } else {
-          throw new Error('Image upload failed')
+          throw new Error('Image upload failed');
         }
       } catch (error) {
-        console.error('Error uploading image:', error)
-        ElMessage.error('图片上传失败')
-        throw error
+        console.error('Error uploading image:', error);
+        ElMessage.error('图片上传失败');
+        throw error;  // 抛出异常供调用方捕获
       }
-    }
+    };
+
 
     const saveRow = async (row) => {
       isLoading.value = true

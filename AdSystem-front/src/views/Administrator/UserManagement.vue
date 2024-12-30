@@ -26,7 +26,7 @@
               v-if="row.isEditing"
               v-model="row.cookie"
               size="small"
-              placeholder="请输入cookie"
+              placeholder="请输入"
           ></el-input>
           <span v-else>{{ row.cookie }}</span>
         </template>
@@ -38,7 +38,7 @@
               v-if="row.isEditing"
               v-model="row.browserFingerprint"
               size="small"
-              placeholder="请输入browserFingerprint"
+              placeholder="请输入"
           ></el-input>
           <span v-else>{{ row.browserFingerprint }}</span>
         </template>
@@ -50,7 +50,7 @@
               v-if="row.isEditing"
               v-model="row.pre1"
               size="small"
-              placeholder="请输入pre1"
+              placeholder="请输入"
           ></el-input>
           <span v-else>{{ row.pre1 }}</span>
         </template>
@@ -62,7 +62,7 @@
               v-if="row.isEditing"
               v-model="row.pre2"
               size="small"
-              placeholder="请输入pre2"
+              placeholder="请输入"
           ></el-input>
           <span v-else>{{ row.pre2 }}</span>
         </template>
@@ -74,7 +74,7 @@
               v-if="row.isEditing"
               v-model="row.pre3"
               size="small"
-              placeholder="请输入pre3"
+              placeholder="请输入"
           ></el-input>
           <span v-else>{{ row.pre3 }}</span>
         </template>
@@ -86,7 +86,7 @@
               v-if="row.isEditing"
               v-model="row.pre4"
               size="small"
-              placeholder="请输入pre4"
+              placeholder="请输入"
           ></el-input>
           <span v-else>{{ row.pre4 }}</span>
         </template>
@@ -212,7 +212,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="140" >
         <template #default="scope">
           <el-button
               type="warning"
@@ -256,56 +256,111 @@
     </div>
 
     <!-- 添加浏览者对话框 -->
-    <el-dialog title="添加新浏览者" v-model="dialogVisible" width="30%">
+    <el-dialog title="添加新浏览者" v-model="dialogVisible" width="50%">
       <el-form :model="newUser" label-width="100px">
-        <el-form-item label="cookie">
-          <el-input v-model="newUser.cookie"></el-input>
-        </el-form-item>
-        <el-form-item label="browserFingerprint">
-          <el-input v-model="newUser.browserFingerprint"></el-input>
-        </el-form-item>
-        <el-form-item label="pre1">
-          <el-input v-model="newUser.pre1"></el-input>
-        </el-form-item>
-        <el-form-item label="pre2">
-          <el-input v-model="newUser.pre2"></el-input>
-        </el-form-item>
-        <el-form-item label="pre3">
-          <el-input v-model="newUser.pre3"></el-input>
-        </el-form-item>
-        <el-form-item label="pre4">
-          <el-input v-model="newUser.pre4"></el-input>
-        </el-form-item>
-        <el-form-item label="interestGames">
-          <el-input v-model="newUser.interestGames"></el-input>
-        </el-form-item>
-        <el-form-item label="interestDigitalProducts">
-          <el-input v-model="newUser.interestDigitalProducts"></el-input>
-        </el-form-item>
-        <el-form-item label="interestAutomotive">
-          <el-input v-model="newUser.interestAutomotive"></el-input>
-        </el-form-item>
-        <el-form-item label="interestLifestyle">
-          <el-input v-model="newUser.interestLifestyle"></el-input>
-        </el-form-item>
-        <el-form-item label="interestTravel">
-          <el-input v-model="newUser.interestTravel"></el-input>
-        </el-form-item>
-        <el-form-item label="interestEntertainment">
-          <el-input v-model="newUser.interestEntertainment"></el-input>
-        </el-form-item>
-        <el-form-item label="interestFood">
-          <el-input v-model="newUser.interestFood"></el-input>
-        </el-form-item>
-        <el-form-item label="interestFashion">
-          <el-input v-model="newUser.interestFashion"></el-input>
-        </el-form-item>
-        <el-form-item label="interestHealth">
-          <el-input v-model="newUser.interestHealth"></el-input>
-        </el-form-item>
-        <el-form-item label="interestSports">
-          <el-input v-model="newUser.interestSports"></el-input>
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="cookie">
+              <el-input v-model="newUser.cookie"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Fingerprint">
+              <el-input v-model="newUser.browserFingerprint"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="pre1">
+              <el-input v-model="newUser.pre1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="pre2">
+              <el-input v-model="newUser.pre2"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="pre3">
+              <el-input v-model="newUser.pre3"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="pre4">
+              <el-input v-model="newUser.pre4"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="游戏">
+              <el-input-number v-model="newUser.interestGames" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="电子产品">
+              <el-input-number v-model="newUser.interestDigitalProducts" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="汽车">
+              <el-input-number v-model="newUser.interestAutomotive" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="生活">
+              <el-input-number v-model="newUser.interestLifestyle" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="旅游">
+              <el-input-number v-model="newUser.interestTravel" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="娱乐">
+              <el-input-number v-model="newUser.interestEntertainment" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="美食">
+              <el-input-number v-model="newUser.interestFood" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="时尚">
+              <el-input-number v-model="newUser.interestFashion" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="健康">
+              <el-input-number v-model="newUser.interestHealth" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="体育">
+              <el-input-number v-model="newUser.interestSports" :min="0" :max="100" :step="1"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
