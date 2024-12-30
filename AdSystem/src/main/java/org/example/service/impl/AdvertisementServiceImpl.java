@@ -49,5 +49,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public void deleteById(Integer id) {
         advertisementMapper.deleteById(id);
     }
+
+    @Override
+    public List<Advertisement> findByAdvertiserId(Integer id) {
+        return advertisementMapper.findByAdvertiserId(id);
+    }
 }
 

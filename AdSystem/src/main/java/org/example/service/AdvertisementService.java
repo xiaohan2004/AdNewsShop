@@ -10,5 +10,6 @@ public interface AdvertisementService {
     Advertisement create(Advertisement advertisement);
     Advertisement update(Integer id, Advertisement advertisement);
     void deleteById(Integer id);
+    List<Advertisement> findByAdvertiserId(Integer id);
 }
 

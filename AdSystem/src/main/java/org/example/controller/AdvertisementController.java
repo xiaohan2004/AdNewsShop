@@ -35,6 +35,12 @@ public class AdvertisementController {
         }
     }
 
+    @GetMapping("/advertiser/{id}")
+    public Result getAdvertisementsByAdvertiserId(@PathVariable Integer id) {
+        List<Advertisement> advertisements = advertisementService.findByAdvertiserId(id);
+        return Result.success(advertisements);
+    }
+
     @PostMapping
     public Result createAdvertisement(@RequestBody Advertisement advertisement) {
         Advertisement createdAd = advertisementService.create(advertisement);

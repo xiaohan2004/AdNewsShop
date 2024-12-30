@@ -29,6 +29,7 @@ public class AdvertiserLoginController {
         //登录成功,生成令牌,下发令牌
         if (a != null){
             Map<String, Object> claims = new HashMap<>();
+            claims.put("id", a.getId());
             claims.put("username", a.getUsername());
 
             String jwt = JwtUtils.generateJwt(claims); //jwt包含了当前登录的广告主信息

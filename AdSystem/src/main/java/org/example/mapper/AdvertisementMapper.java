@@ -23,5 +23,8 @@ public interface AdvertisementMapper {
 
     @Delete("DELETE FROM advertisements WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT * FROM advertisements WHERE advertiser_id = #{id}")
+    List<Advertisement> findByAdvertiserId(Integer id);
 }
 
