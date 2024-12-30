@@ -120,7 +120,7 @@ const handleLogin = async () => {
         goToPage('/admin/dash-board');  // 管理员跳转到管理员主页
       }
       else if (role.value === 'advertiser') {
-        goToPage('/');  // 广告商跳转到广告商主页
+        goToPage('/advertiser/ad-delivery');  // 广告商跳转到广告商主页
       }
       else if (role.value === 'websiteOperator') {
         goToPage('/');  // 网站长跳转到网站长主页

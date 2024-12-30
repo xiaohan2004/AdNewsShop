@@ -149,7 +149,7 @@
               :on-change="handleNewAdvertisementImageChange"
           >
             <img v-if="newAdvertisement.imageUrl" :src="newAdvertisement.imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <img v-else src="https://pic.616pic.com/ys_bnew_img/00/46/51/qGEhxCt0bx.jpg" class="avatar-uploader-icon">
           </el-upload>
         </el-form-item>
         <el-form-item label="广告商编号">
@@ -171,6 +171,18 @@ import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import api from "@/api/api"
 
+function parseJWT(token) {
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    throw new Error('Invalid JWT format');
+  }
+
+  const header = JSON.parse(atob(parts[0]));
+  const payload = JSON.parse(atob(parts[1]));
+
+  return { header, payload };
+}
+
 export default {
   name: "AdvertisementManagement",
   setup() {
@@ -185,7 +197,7 @@ export default {
       advertiserId: '',
     })
     const currentPage = ref(1)
-    const pageSize = ref(8)
+    const pageSize = ref(7)
 
     const filteredAdvertisementData = computed(() => advertisementData.value)
     const paginatedAdvertisementData = computed(() => {
@@ -194,16 +206,27 @@ export default {
       return filteredAdvertisementData.value.slice(start, end)
     })
 
+
     const fetchAdvertisementData = async () => {
       try {
-        const response = await api.get('/api/advertisements')
+
+        const token = localStorage.getItem('jwt')
+        if (!token) {
+          throw new Error('No token found')
+        }
+
+        const { payload } = parseJWT(token)
+        const id = payload.id
+
+        const response = await api.get(`/api/advertisements/advertiser/${id}`)
+
         if (response.data.code === 1) {
-          advertisementData.value = response.data.data.map(advertisement => ({
-            ...advertisement,
-            isEditing: false,
-          }))
-          console.log('Total advertisements:', advertisementData.value.length)
-        } else {
+          advertisementData.value = Array.isArray(response.data.data)
+              ? response.data.data
+              : [response.data.data];  // 如果是单个广告，包装成数组
+          console.log('Total advertisements:', advertisementData.value.length);  // 输出总广告数量
+        }
+        else {
           throw new Error('Failed to fetch data')
         }
       } catch (error) {
@@ -217,27 +240,27 @@ export default {
     }
 
     const uploadImage = async (file) => {
-      const formData = new FormData()
-      formData.append('imageUrl', file)
+      const formData = new FormData();
+      formData.append('img', file);  // 这里将字段名改为 'img'
 
       try {
         const response = await api.post('/upload', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
+            'Content-Type': 'multipart/form-data', // 保持这个 Content-Type 设置
+          },
+        });
 
         if (response.data.code === 1) {
-          return response.data.data
+          return response.data.data;  // 返回图片URL或其他数据
         } else {
-          throw new Error('Image upload failed')
+          throw new Error('Image upload failed');
         }
       } catch (error) {
-        console.error('Error uploading image:', error)
-        ElMessage.error('图片上传失败')
-        throw error
+        console.error('Error uploading image:', error);
+        ElMessage.error('图片上传失败');
+        throw error;  // 抛出异常供调用方捕获
       }
-    }
+    };
 
     const saveRow = async (row) => {
       isLoading.value = true

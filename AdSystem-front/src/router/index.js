@@ -6,7 +6,7 @@ import CustomerLayout from "@/layout/AdvertiserLayout.vue";
 // Import all your view components here (as you had them before)
 
 
-import CustomerUserInfo from "@/views/Advertiser/CustomerUserInfo.vue";
+import CustomerUserInfo from "@/views/Advertiser/AdvertiserUserInfo.vue";
 
 import SystemLog from "@/views/Administrator/SystemLog.vue";
 import AdministratorRegister from "@/views/Register/AdministratorRegister.vue";
@@ -23,6 +23,7 @@ import WebsiteOperators from "@/views/Administrator/WebsiteOperators.vue";
 import AdminUserInfo from "@/views/Administrator/AdminUserInfo.vue";
 import AdvertiserLayout from "@/layout/AdvertiserLayout.vue";
 import AdDelivery from "@/views/Advertiser/AdDelivery.vue";
+import AdvertiserUserInfo from "@/views/Advertiser/AdvertiserUserInfo.vue";
 
 // 定义路由规则
 const routes = [
@@ -54,7 +55,7 @@ const routes = [
         meta: {requiresAuth: true},// meta requiresAuth字段表示该路由需要登录,但是现在导航守卫用的是排除方法
         children: [
             {path: "ad-delivery", name: "AdDelivery", component: AdDelivery},
-
+            {path: "advertiser-user-info", name: "AdvertiserUserInfo", component: AdvertiserUserInfo},
         ],
     },
     {

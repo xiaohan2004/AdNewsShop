@@ -20,7 +20,7 @@
           <el-descriptions-item label="用户编号">{{ userInfo.id }}</el-descriptions-item>
           <el-descriptions-item label="用户名">{{ userInfo.username }}</el-descriptions-item>
           <el-descriptions-item label="公司">{{ userInfo.companyName }}</el-descriptions-item>
-          <el-descriptions-item label="个人简介" align="center">
+          <el-descriptions-item label="个人简介" >
             热爱工作，积极向上。
           </el-descriptions-item>
         </el-descriptions>
