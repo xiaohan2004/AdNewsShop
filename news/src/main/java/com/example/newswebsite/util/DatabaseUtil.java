@@ -5,11 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseUtil {
-    //static final String URL = "jdbc:mysql://localhost:3306/usst?allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=GMT&characterEncoding=UTF-8&useSSL=false";
-    static final String URL = "jdbc:mysql://localhost:3306/ad_system";
+    static final String URL = "jdbc:mysql://localhost:3306/usst?allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=GMT&characterEncoding=UTF-8&useSSL=false";
     static final String USER = "root";
-   // static final String PASSWORD = "thyghf931114";
-   static final String PASSWORD ="hzp123123";
+    static final String PASSWORD = "thyghf931114";
 
     static {
         try {
