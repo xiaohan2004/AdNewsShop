@@ -1,51 +1,100 @@
 package com.example.newswebsite.util;
 
+import com.example.newswebsite.dao.NewsDAOImpl;
 import com.example.newswebsite.model.News;
-import com.example.newswebsite.service.NewsService;
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.SyndFeedInput;
-import com.rometools.rome.io.XmlReader;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import java.net.URL;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewsCrawler {
-    private NewsService newsService;
 
-    public NewsCrawler(NewsService newsService) {
-        this.newsService = newsService;
+    // 定义网站配置：URL 和对应的标签
+    private static final Map<String, String> WEBSITES = new HashMap<>() {{
+        put("https://digi.163.com/", "数码");
+        put("https://mobile.163.com/", "手机");
+        put("https://tech.163.com/special/metaverse_2022/", "元宇宙");
+        put("https://sports.163.com/", "体育");
+    }};
+
+    private NewsDAOImpl newsDAO;
+
+    public NewsCrawler() {
+        this.newsDAO = new NewsDAOImpl();
     }
 
-    public void crawlNews(String feedUrl) {
-        try {
-            URL url = new URL(feedUrl);
-            SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(new XmlReader(url));
+    public void crawlAndSaveNews() {
+        for (Map.Entry<String, String> entry : WEBSITES.entrySet()) {
+            String url = entry.getKey();
+            String category = entry.getValue();
 
-            String category = "NYT > " + feed.getTitle();
+            try {
+                Document doc = Jsoup.connect(url).get();
+                Elements newsElements;
 
-            for (SyndEntry entry : feed.getEntries()) {
-                News news = new News();
-                news.setTitle(entry.getTitle());
-                news.setContent(entry.getDescription().getValue());
-                news.setCategory(category);
-                news.setPublishDate(entry.getPublishedDate() != null ? entry.getPublishedDate() : new Date());
-
-                try {
-                    if (!newsService.newsExists(news.getTitle())) {
-                        newsService.createNews(news);
-                    }
-                } catch (Exception e) {
-                    System.err.println("Error saving news: " + news.getTitle());
-                    e.printStackTrace();
+                // 根据 URL 选择不同的选择器
+                if (url.equals("https://mobile.163.com/") || url.equals("https://digi.163.com/")) {
+                    newsElements = doc.select("li.list_item");
+                }  else if(url.equals("https://tech.163.com/special/metaverse_2022/")){
+                    newsElements = doc.select("div.area .left ul.newsList li");
                 }
+                else {
+                    newsElements = doc.select("div.bottomnews_main_simg");
+                }
+
+                // 抓取新闻数据
+                for (Element newsElement : newsElements) {
+                    String title = "";
+                    String link = "";
+                    String content = "";
+                    Date publishDate = new Date(); // 默认使用当前时间
+
+                    // 根据 URL 提取标题和链接
+                    if (url.equals("https://mobile.163.com/") || url.equals("https://digi.163.com/")) {
+                        title = newsElement.select("p.nl-title").text();
+                        link = newsElement.select("a.nl_detail").attr("href");
+                    } else if(url.equals("https://tech.163.com/special/metaverse_2022/")) {
+                        title = newsElement.select("h3.bigsize a").text();
+                        link = newsElement.select("h3.bigsize a").attr("href");
+                    }
+                    else {
+                        title = newsElement.select("h2 a").text();
+                        link = newsElement.select("h2 a").attr("href");
+                    }
+
+                    content = getNewsContent(link);
+
+                    News news = new News(title, content, category, publishDate);
+
+                    newsDAO.saveNews(news);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String getNewsContent(String url) {
+        StringBuilder mainText = new StringBuilder();
+        try {
+            Document doc = Jsoup.connect(url).get();
+            Element postBody = doc.select("div.post_body").first(); // 正文选择器
+            if (postBody != null) {
+                Elements paragraphs = postBody.select("p");
+                for (Element paragraph : paragraphs) {
+                    mainText.append(paragraph.text()).append("\n");
+                }
+            } else {
+                System.out.println("未找到正文内容");
             }
         } catch (Exception e) {
-            System.err.println("Error crawling news source: " + feedUrl);
             e.printStackTrace();
         }
+        return mainText.toString();
     }
 }

@@ -300,4 +300,22 @@ public class NewsDAOImpl implements NewsDAO {
 
         return categories;
     }
+    @Override
+    public void saveNews(News news) {
+        String sql = "INSERT INTO news (title, content, category, publish_date) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, news.getTitle());
+            stmt.setString(2, news.getContent());
+            stmt.setString(3, news.getCategory());
+            stmt.setDate(4, new java.sql.Date(news.getPublishDate().getTime()));
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

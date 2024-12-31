@@ -31,7 +31,8 @@
         </div>
         <div>
             <label for="publishDate">发布时间:</label>
-            <input type="datetime-local" id="publishDate" name="publishDate" value="${not empty news.publishDate ? news.publishDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime() : ''}" required>
+            <fmt:formatDate value="${news.publishDate}" pattern="yyyy-MM-dd'T'HH:mm" var="formattedDate"/>
+            <input type="datetime-local" id="publishDate" name="publishDate" value="${formattedDate}" required>
         </div>
         <div>
             <input type="submit" value="${empty news.id ? 'Create' : 'Update'} News">

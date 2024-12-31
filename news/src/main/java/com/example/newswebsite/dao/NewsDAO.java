@@ -27,4 +27,6 @@ public interface NewsDAO {
     boolean newsExists(String title) throws SQLException;
 
     Set<String> getAllCategories() throws SQLException;
+
+    void saveNews(News news) throws SQLException;
 }
