@@ -46,7 +46,7 @@
     </main>
 </div>
 <footer>
-    <p>&copy; 2024 新闻系统. </p>
+    <p>&copy; 2024 新闻管理系统. 保留所有权利.</p>
 </footer>
 </body>
 </html>
