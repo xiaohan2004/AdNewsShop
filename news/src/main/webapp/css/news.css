@@ -1,0 +1,177 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #f0eded;
+    background-color: #f4f4f4;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #2e2d2d;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  header h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #f3efef;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    color: #666;
+  }
+  
+  .search-form {
+    margin-top: 1rem;
+    display: flex;
+  }
+  
+  .search-form input[type="text"] {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+  }
+  
+  .search-form button {
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-form button:hover {
+    background-color: #555;
+  }
+  
+  /* Main content styles */
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2rem;
+  }
+  
+  #news-list {
+    flex-basis: 70%;
+  }
+  
+  #news-list h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  article {
+    background-color: #fff;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  article h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  article h2 a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  article h2 a:hover {
+    color: #666;
+  }
+  
+  article p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Ad space styles */
+  #ad-space {
+    flex-basis: 25%;
+  }
+  
+  #ad-container {
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Pagination styles */
+  .pagination {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .page-link, .current-page {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+  }
+  
+  .page-link:hover {
+    background-color: #f4f4f4;
+  }
+  
+  .current-page {
+    font-weight: bold;
+    background-color: #333;
+    color: #fff;
+  }
+  
+  /* Footer styles */
+  footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    main {
+      flex-direction: column;
+    }
+  
+    #news-list, #ad-space {
+      flex-basis: 100%;
+    }
+  
+    #ad-space {
+      margin-top: 2rem;
+    }
+  }

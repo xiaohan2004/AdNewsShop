@@ -4,23 +4,23 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel - News List</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <title>管理员面板 - 新闻列表</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/list.css">
 </head>
 <body>
 <header>
-    <h1>Admin Panel - News List</h1>
+    <h1>管理员面板 - 新闻列表</h1>
 </header>
 <main>
-    <a href="${pageContext.request.contextPath}/admin/edit">Add New News</a>
+    <a href="${pageContext.request.contextPath}/admin/edit">添加新闻</a>
     <table>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Publish Date</th>
-            <th>Actions</th>
+            <th>编号</th>
+            <th>标题</th>
+            <th>类别</th>
+            <th>发布时间</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody>

@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <title>News Website</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/news.css">
 </head>
 <body>
 <header>
-    <h1>News Website</h1>
+    <h1>新闻网站</h1>
     <nav>
         <ul>
-            <li><a href="${pageContext.request.contextPath}/news">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/news">主界面</a></li>
             <c:forEach var="cat" items="${categories}">
                 <li><a href="${pageContext.request.contextPath}/news?category=${cat}">${cat}</a></li>
             </c:forEach>
@@ -20,24 +20,24 @@
     </nav>
     <form action="${pageContext.request.contextPath}/news" method="get" class="search-form">
         <input type="hidden" name="action" value="search">
-        <input type="text" name="keyword" placeholder="Search news..." required>
-        <button type="submit">Search</button>
+        <input type="text" name="keyword" placeholder="搜索新闻..." required>
+        <button type="submit">搜索</button>
     </form>
 </header>
 
 <main>
     <section id="news-list">
         <c:if test="${not empty category}">
-            <h2>Category: ${category}</h2>
+            <h2>类别: ${category}</h2>
         </c:if>
         <c:if test="${not empty keyword}">
-            <h2>Search results for: ${keyword}</h2>
+            <h2>搜索结果: ${keyword}</h2>
         </c:if>
         <c:forEach var="news" items="${newsList}">
             <article>
                 <h2><a href="${pageContext.request.contextPath}/news?action=view&id=${news.id}">${news.title}</a></h2>
-                <p>Category: ${news.category}</p>
-                <p>Published: ${news.publishDate}</p>
+                <p>类别: ${news.category}</p>
+                <p>发布时间: ${news.publishDate}</p>
             </article>
         </c:forEach>
     </section>

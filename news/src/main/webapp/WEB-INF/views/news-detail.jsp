@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <title>${news.title} - News Website</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/news-details.css">
 </head>
 <body>
 <header>
-    <h1>News Website</h1>
+    <h1>新闻详情</h1>
     <nav>
         <ul>
-            <li><a href="${pageContext.request.contextPath}/news">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/news">主界面</a></li>
         </ul>
     </nav>
 </header>
@@ -20,8 +20,8 @@
 <main>
     <article>
         <h1>${news.title}</h1>
-        <p>Category: ${news.category}</p>
-        <p>Published: ${news.publishDate}</p>
+        <p>类别: ${news.category}</p>
+        <p>发布时间: ${news.publishDate}</p>
         <div class="news-content">
             ${news.content}
         </div>
