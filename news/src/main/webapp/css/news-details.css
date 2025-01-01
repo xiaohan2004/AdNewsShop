@@ -46,10 +46,12 @@
   
   /* Main content styles */
   main {
+  
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 2rem;
+    flex-direction: column;
   }
   
   article {
@@ -59,7 +61,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
   
-  article h1 {
+  article h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     color: #222;
@@ -77,16 +79,109 @@
     color: black;
     margin-top: 2rem;
   }
-  
-  /* Ad space styles */
-  #ad-space {
-    flex-basis: 25%;
+  .news-content p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
   }
   
-  #ad-container {
-    background-color: #fff;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* Ad space styles */
+    .ads {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+      
+  }
+  
+  .ad1-space,
+  .ad2-space,
+  .ad3-space {
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      padding: 10px;
+      text-align: center;
+  }
+  
+  #banner {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+  }
+  
+  #logo {
+      width: 80px;
+      height: auto;
+  }
+  
+  #marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: marquee 10s linear infinite;
+      color: #007BFF;
+      font-size: 14px;
+  }
+  
+  @keyframes marquee {
+      from {
+          transform: translateX(0);
+      }
+      to {
+          transform: translateX(-100%);
+      }
+  }
+  
+  #popup {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 150px;
+      height: 120px;
+      background-color: #FF5733;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      display: none;
+      z-index: 1000;
+      line-height: 120px;
+      color: white;
+  }
+  
+  #floating-img {
+      width: 80px;
+      height: auto;
+      animation: floating 3s ease-in-out infinite;
+  }
+  
+  @keyframes floating {
+      0% {
+          transform: translateY(0);
+      }
+      50% {
+          transform: translateY(-10px);
+      }
+      100% {
+          transform: translateY(0);
+      }
+  }
+  
+  #floating-text {
+      color: #FF0000;
+      font-size: 12px;
+      font-weight: bold;
+      animation: floating-text 3s ease-in-out infinite;
+  }
+  
+  @keyframes floating-text {
+      0% {
+          transform: translateX(0);
+      }
+      50% {
+          transform: translateX(10px);
+      }
+      100% {
+          transform: translateX(0);
+      }
   }
   
   /* Footer styles */

@@ -26,13 +26,35 @@
 </header>
 
 <main>
-    <section id="news-list">
+<div id="ads" class="ads">
+    <div id="ad1-space" class="ad1-space">
+        <div id="banner">banner广告</div>
+    </div>
+    <div id="ad2-space" class="ad2-space"> 
+        <img id="logo" src="logo.png" alt="logo">
+        <div id="marquee"><span>滚动字幕广告</span></div>
+        <div id="popup">弹出小窗口广告</div>
+        <img id="floating-img" src="floating-img.png" alt="浮动图片">
+        <div id="floating-text">浮动文字广告</div>
+    </div>
+    <div id="ad3-space" class="ad3-space"> 
+        <img id="logo" src="logo.png" alt="logo">
+        <div id="marquee"><span>滚动字幕广告</span></div>
+        <div id="popup">弹出小窗口广告</div>
+        <img id="floating-img" src="floating-img.png" alt="浮动图片">
+        <div id="floating-text">浮动文字广告</div>
+    </div>
+</div>
+
+    <div id="news-list" class="news-list">
+        <div class="search-result">
         <c:if test="${not empty category}">
             <h2>类别: ${category}</h2>
         </c:if>
         <c:if test="${not empty keyword}">
             <h2>搜索结果: ${keyword}</h2>
         </c:if>
+     </div>
         <c:forEach var="news" items="${newsList}">
             <article>
                 <h2><a href="${pageContext.request.contextPath}/news?action=view&id=${news.id}">${news.title}</a></h2>
@@ -40,16 +62,10 @@
                 <p>发布时间: ${news.publishDate}</p>
             </article>
         </c:forEach>
-    </section>
-
-    <aside id="ad-space">
-        <!-- Ad space -->
-        <div id="ad-container"></div>
-    </aside>
-
+    </div>
     <div class="pagination">
         <c:if test="${currentPage > 1}">
-            <a href="${pageContext.request.contextPath}/news?page=${currentPage - 1}${not empty category ? '&category='.concat(category) : ''}${not empty keyword ? '&action=search&keyword='.concat(keyword) : ''}" class="page-link">Previous</a>
+            <a href="${pageContext.request.contextPath}/news?page=${currentPage - 1}${not empty category? '&category='.concat(category) : ''}${not empty keyword? '&action=search&keyword='.concat(keyword) : ''}" class="page-link">Previous</a>
         </c:if>
         <c:forEach begin="1" end="${totalPages}" var="i">
             <c:choose>
@@ -57,21 +73,22 @@
                     <span class="current-page">${i}</span>
                 </c:when>
                 <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/news?page=${i}${not empty category ? '&category='.concat(category) : ''}${not empty keyword ? '&action=search&keyword='.concat(keyword) : ''}" class="page-link">${i}</a>
+                    <a href="${pageContext.request.contextPath}/news?page=${i}${not empty category? '&category='.concat(category) : ''}${not empty keyword? '&action=search&keyword='.concat(keyword) : ''}" class="page-link">${i}</a>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:if test="${currentPage < totalPages}">
-            <a href="${pageContext.request.contextPath}/news?page=${currentPage + 1}${not empty category ? '&category='.concat(category) : ''}${not empty keyword ? '&action=search&keyword='.concat(keyword) : ''}" class="page-link">Next</a>
+            <a href="${pageContext.request.contextPath}/news?page=${currentPage + 1}${not empty category? '&category='.concat(category) : ''}${not empty keyword? '&action=search&keyword='.concat(keyword) : ''}" class="page-link">Next</a>
         </c:if>
     </div>
 
+    
 </main>
 
 <footer>
     <p>&copy; 2024 News Website. All rights reserved.</p>
 </footer>
 
-<script src="${pageContext.request.contextPath}/js/ads.js"></script>
+<script src="${pageContext.request.contextPath}/js/news.js"></script>
 </body>
 </html>
