@@ -29,28 +29,49 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'CartPage',
-  computed: {
-    ...mapGetters(['cartItems', 'cartTotal'])
-  },
-  methods: {
-    ...mapActions(['removeProductFromCart', 'clearCart', 'increaseCartItemQuantity', 'decreaseCartItemQuantity']),
-    removeFromCart(productId) {
-      this.removeProductFromCart(productId)
-    },
-    increaseQuantity(productId) {
-      this.increaseCartItemQuantity(productId)
-    },
-    decreaseQuantity(productId) {
-      this.decreaseCartItemQuantity(productId)
-    },
-    checkout() {
+  setup() {
+    const store = useStore()
+
+    const cartItems = computed(() => store.getters.cartItems)
+    const cartTotal = computed(() => store.getters.cartTotal)
+
+    const removeFromCart = (productId) => {
+      store.dispatch('removeProductFromCart', productId)
+    }
+
+    const increaseQuantity = (productId) => {
+      store.dispatch('increaseCartItemQuantity', productId)
+    }
+
+    const decreaseQuantity = (productId) => {
+      const item = cartItems.value.find(item => item.id === productId)
+      if (item) {
+        if (item.quantity > 1) {
+          store.dispatch('decreaseCartItemQuantity', productId)
+        } else {
+          store.dispatch('removeProductFromCart', productId)
+        }
+      }
+    }
+
+    const checkout = () => {
       // 这里应该实现结算逻辑
       alert('感谢您的购买！')
-      this.clearCart()
+      store.dispatch('clearCart')
+    }
+
+    return {
+      cartItems,
+      cartTotal,
+      removeFromCart,
+      increaseQuantity,
+      decreaseQuantity,
+      checkout
     }
   }
 }
@@ -140,4 +161,5 @@ export default {
   border-radius: 5px;
 }
 </style>
+
 

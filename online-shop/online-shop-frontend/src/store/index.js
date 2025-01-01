@@ -1,4 +1,7 @@
 import { createStore } from 'vuex'
+import axios from 'axios'
+
+const API_BASE_URL = 'http://localhost:8080/api';
 
 export default createStore({
   state: {
@@ -41,28 +44,28 @@ export default createStore({
     },
     clearCart(state) {
       state.cart = []
+    },
+    addProduct(state, product) {
+      state.products.push(product)
+    },
+    updateProduct(state, updatedProduct) {
+      const index = state.products.findIndex(p => p.id === updatedProduct.id)
+      if (index !== -1) {
+        state.products.splice(index, 1, updatedProduct)
+      }
+    },
+    deleteProduct(state, productId) {
+      state.products = state.products.filter(p => p.id !== productId)
     }
   },
   actions: {
     async fetchProducts({ commit }) {
       try {
-        // 这里应该是从后端API获取产品的逻辑
-        // 暂时使用模拟数据
-        const products = [
-          { id: 1, name: 'PlayStation 5', price: 3999.99, category: '游戏', image: 'https://example.com/ps5.jpg', description: '次世代游戏主机，带来极致游戏体验。' },
-          { id: 2, name: 'iPhone 13', price: 5999.99, category: '数码产品', image: 'https://example.com/iphone13.jpg', description: '新一代智能手机，搭载A15仿生芯片。' },
-          { id: 3, name: 'Tesla Model 3', price: 279900.00, category: '汽车', image: 'https://example.com/tesla3.jpg', description: '高性能电动汽车，科技与环保的完美结合。' },
-          { id: 4, name: '智能电饭煲', price: 299.99, category: '生活', image: 'https://example.com/ricecooker.jpg', description: 'AI控温，让每一粒米都恰到好处。' },
-          { id: 5, name: '日本温泉旅行套餐', price: 9999.99, category: '旅游', image: 'https://example.com/japantrip.jpg', description: '体验日本传统温泉文化，放松身心。' },
-          { id: 6, name: '电影票', price: 49.99, category: '娱乐', image: 'https://example.com/movieticket.jpg', description: '观看最新大片，享受视听盛宴。' },
-          { id: 7, name: '米其林三星餐厅套餐', price: 1999.99, category: '美食', image: 'https://example.com/michelin.jpg', description: '顶级厨师精心烹饪，味蕾的极致享受。' },
-          { id: 8, name: 'Gucci手提包', price: 15999.99, category: '时尚', image: 'https://example.com/guccibag.jpg', description: '奢华品质，彰显个人品味。' },
-          { id: 9, name: '年度体检套餐', price: 2999.99, category: '健康医疗', image: 'https://example.com/healthcheck.jpg', description: '全面体检，呵护您的健康。' },
-          { id: 10, name: 'Nike跑鞋', price: 799.99, category: '体育', image: 'https://example.com/nikeshoes.jpg', description: '专业跑步鞋，为您的运动保驾护航。' }
-        ]
-        commit('setProducts', products)
+        const response = await axios.get(`${API_BASE_URL}/products`)
+        commit('setProducts', response.data)
       } catch (error) {
         console.error('Error fetching products:', error)
+        commit('setProducts', [])
       }
     },
     addProductToCart({ commit }, product) {
@@ -79,6 +82,33 @@ export default createStore({
     },
     clearCart({ commit }) {
       commit('clearCart')
+    },
+    async addProduct({ commit, dispatch }, product) {
+      try {
+        const response = await axios.post(`${API_BASE_URL}/products`, product)
+        commit('addProduct', response.data)
+        dispatch('fetchProducts')  // 重新获取所有产品以确保ID正确
+      } catch (error) {
+        console.error('Error adding product:', error)
+      }
+    },
+    async updateProduct({ commit, dispatch }, product) {
+      try {
+        const response = await axios.put(`${API_BASE_URL}/products/${product.id}`, product)
+        commit('updateProduct', response.data)
+        dispatch('fetchProducts')  // 重新获取所有产品以确保ID正确
+      } catch (error) {
+        console.error('Error updating product:', error)
+      }
+    },
+    async deleteProduct({ commit, dispatch }, productId) {
+      try {
+        await axios.delete(`${API_BASE_URL}/products/${productId}`)
+        commit('deleteProduct', productId)
+        dispatch('fetchProducts')  // 重新获取所有产品以确保ID正确
+      } catch (error) {
+        console.error('Error deleting product:', error)
+      }
     }
   },
   getters: {

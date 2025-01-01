@@ -5,6 +5,15 @@
       <p>{{ pageDescription }}</p>
     </section>
 
+    <section class="categories">
+      <div v-for="cat in categories" :key="cat"
+           class="category-tag"
+           :class="{ active: category === cat }"
+           @click="setCategory(cat)">
+        {{ cat }}
+      </div>
+    </section>
+
     <section class="filters">
       <div class="filter-group">
         <label for="sort">排序方式：</label>
@@ -16,91 +25,199 @@
         </select>
       </div>
       <div class="filter-group">
-        <label for="price-range">价格范围：</label>
-        <input type="range" id="price-range" v-model="maxPrice" min="0" :max="highestPrice" step="100">
-        <span>¥{{ maxPrice }}</span>
+        <label for="min-price">最低价格：</label>
+        <input type="number" id="min-price" v-model="minPrice" min="0" step="1" placeholder="最低价格">
+      </div>
+      <div class="filter-group">
+        <label for="max-price">最高价格：</label>
+        <input type="number" id="max-price" v-model="maxPrice" min="0" step="1" placeholder="最高价格">
       </div>
     </section>
 
     <section class="product-list">
-      <div class="product-grid">
+      <div v-if="loading" class="loading">加载中...</div>
+      <div v-else-if="error" class="error">{{ error }}</div>
+      <div v-else class="product-grid">
         <div v-for="product in filteredAndSortedProducts" :key="product.id" class="product-card">
           <img :src="product.image" :alt="product.name" class="product-image">
           <div class="product-info">
             <h3>{{ product.name }}</h3>
             <p class="price">¥{{ product.price.toFixed(2) }}</p>
             <p class="description">{{ product.description }}</p>
-            <button @click="addToCart(product)" class="add-to-cart">加入购物车</button>
+            <button @click="addToCart(product)" class="add-to-cart">
+              加入购物车
+            </button>
           </div>
         </div>
       </div>
     </section>
+    <div class="pagination">
+      <button
+          @click="currentPage--"
+          :disabled="currentPage === 1"
+          class="pagination-btn"
+      >
+        上一页
+      </button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button
+          @click="currentPage++"
+          :disabled="currentPage === totalPages"
+          class="pagination-btn"
+      >
+        下一页
+      </button>
+    </div>
+    <transition-group name="notification" tag="div" class="notifications">
+      <div v-for="notification in notifications" :key="notification.id" class="notification">
+        {{ notification.message }}
+      </div>
+    </transition-group>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   name: 'ProductsPage',
-  data() {
-    return {
-      category: '',
-      sortBy: 'price-asc',
-      maxPrice: 10000
-    }
-  },
-  computed: {
-    ...mapGetters(['allProducts']),
-    pageTitle() {
-      return this.category ? `${this.category} 商品` : '所有商品'
-    },
-    pageDescription() {
-      return this.category ? `探索我们精选的${this.category}商品系列` : '浏览我们的全部商品'
-    },
-    filteredAndSortedProducts() {
-      let products = this.allProducts
+  setup() {
+    const store = useStore()
+    const route = useRoute()
+    const router = useRouter()
+
+    const categories = ['全部', '游戏', '数码产品', '汽车', '生活', '旅游', '娱乐', '美食', '时尚', '健康医疗', '体育']
+    const category = ref('')
+    const sortBy = ref('price-asc')
+    const minPrice = ref('')
+    const maxPrice = ref('')
+    const loading = ref(true)
+    const error = ref(null)
+    const notifications = ref([])
+    const itemsPerPage = 12
+    const currentPage = ref(1)
+
+    const allProducts = computed(() => store.getters.allProducts)
+
+    const pageTitle = computed(() => category.value ? `${category.value} 商品` : '所有商品')
+    const pageDescription = computed(() => category.value ? `探索我们精选的${category.value}商品系列` : '浏览我们的全部商品')
+
+    const filteredAndSortedProducts = computed(() => {
+      let products = allProducts.value
 
       // 按类别过滤
-      if (this.category) {
-        products = products.filter(product => product.category === this.category)
+      if (category.value && category.value !== '全部') {
+        products = products.filter(product => product.category === category.value)
       }
 
       // 按价格过滤
-      products = products.filter(product => product.price <= this.maxPrice)
+      if (minPrice.value !== '') {
+        products = products.filter(product => product.price >= Number(minPrice.value))
+      }
+      if (maxPrice.value !== '') {
+        products = products.filter(product => product.price <= Number(maxPrice.value))
+      }
 
       // 排序
-      switch(this.sortBy) {
+      switch(sortBy.value) {
         case 'price-asc':
-          return products.sort((a, b) => a.price - b.price)
+          products = products.sort((a, b) => a.price - b.price)
+          break
         case 'price-desc':
-          return products.sort((a, b) => b.price - a.price)
+          products = products.sort((a, b) => b.price - a.price)
+          break
         case 'name-asc':
-          return products.sort((a, b) => a.name.localeCompare(b.name))
+          products = products.sort((a, b) => a.name.localeCompare(b.name))
+          break
         case 'name-desc':
-          return products.sort((a, b) => b.name.localeCompare(a.name))
-        default:
-          return products
+          products = products.sort((a, b) => b.name.localeCompare(a.name))
+          break
       }
-    },
-    highestPrice() {
-      return Math.max(...this.allProducts.map(p => p.price))
+
+      // 分页
+      const startIndex = (currentPage.value - 1) * itemsPerPage
+      return products.slice(startIndex, startIndex + itemsPerPage)
+    })
+
+    const totalPages = computed(() => {
+      const filteredProducts = allProducts.value.filter(product => {
+        if (category.value && category.value !== '全部' && product.category !== category.value) {
+          return false
+        }
+        if (minPrice.value !== '' && product.price < Number(minPrice.value)) {
+          return false
+        }
+        if (maxPrice.value !== '' && product.price > Number(maxPrice.value)) {
+          return false
+        }
+        return true
+      })
+      return Math.ceil(filteredProducts.length / itemsPerPage)
+    })
+
+    const addToCart = (product) => {
+      store.dispatch('addProductToCart', product)
+      showNotification()
     }
-  },
-  methods: {
-    ...mapActions(['fetchProducts', 'addProductToCart']),
-    addToCart(product) {
-      this.addProductToCart(product)
-      // 这里可以添加一些用户反馈，比如提示消息
+
+    const showNotification = () => {
+      const notification = {
+        message: '商品已成功加入购物车！',
+        id: Date.now()
+      }
+      notifications.value.push(notification)
+      setTimeout(() => {
+        notifications.value = notifications.value.filter(n => n.id !== notification.id)
+      }, 3000)
     }
-  },
-  created() {
-    this.category = this.$route.params.category || ''
-    this.fetchProducts()
-  },
-  watch: {
-    '$route.params.category'(newCategory) {
-      this.category = newCategory || ''
+
+    const fetchProducts = async () => {
+      try {
+        await store.dispatch('fetchProducts')
+        loading.value = false
+      } catch (error) {
+        error.value = '加载商品时出错，请稍后再试。'
+        loading.value = false
+      }
+    }
+
+    const setCategory = (cat) => {
+      category.value = cat
+      if (cat === '全部') {
+        router.push({ name: 'ProductsPage' })
+      } else {
+        router.push({ name: 'ProductsByCategory', params: { category: cat } })
+      }
+    }
+
+    onMounted(() => {
+      category.value = route.params.category || '全部'
+      fetchProducts()
+    })
+
+    watch(() => route.params.category, (newCategory) => {
+      category.value = newCategory || '全部'
+    })
+
+    return {
+      categories,
+      category,
+      sortBy,
+      minPrice,
+      maxPrice,
+      loading,
+      error,
+      pageTitle,
+      pageDescription,
+      filteredAndSortedProducts,
+      addToCart,
+      setCategory,
+      notifications,
+      itemsPerPage,
+      currentPage,
+      totalPages
     }
   }
 }
@@ -130,6 +247,33 @@ export default {
 .hero p {
   font-size: 1.2em;
   opacity: 0.8;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.category-tag {
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #3498db, #8e44ad);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-tag:hover, .category-tag.active {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #2980b9, #8e44ad);
 }
 
 .filters {
@@ -162,8 +306,8 @@ export default {
   border-radius: 4px;
 }
 
-.filter-group input[type="range"] {
-  width: 200px;
+.filter-group input[type="number"] {
+  width: 100px;
 }
 
 .product-list {
@@ -224,12 +368,76 @@ export default {
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   width: 100%;
 }
 
 .add-to-cart:hover {
   background-color: #2980b9;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.error {
+  color: red;
+}
+
+.notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: #2ecc71;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.notification-enter-active,
+.notification-leave-active {
+  transition: all 0.5s ease;
+}
+
+.notification-enter-from,
+.notification-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.pagination-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
@@ -242,7 +450,7 @@ export default {
     margin-bottom: 15px;
   }
 
-  .filter-group input[type="range"] {
+  .filter-group input[type="number"] {
     width: 100%;
   }
 }
