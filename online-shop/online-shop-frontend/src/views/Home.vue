@@ -5,15 +5,6 @@
       <p>探索精选商品，体验卓越购物</p>
     </section>
 
-    <section class="search-bar">
-      <h2>搜索商品</h2>
-      <input
-          type="text"
-          v-model="searchTerm"
-          placeholder="请输入商品名"
-          class="search-input"
-      />
-    </section>
 
     <section class="categories">
       <h2>商品分类</h2>
@@ -33,15 +24,13 @@
       <h2>精选商品</h2>
       <div v-if="loading" class="loading">加载中...</div>
       <div v-else-if="error" class="error">{{ error }}</div>
-      <div v-else>
-        <div v-if="filteredProducts.length === 0 && searchTerm">没有找到匹配的商品</div>
-        <div v-else class="product-grid">
-          <div v-for="product in filteredProducts" :key="product.id" class="product-card">
-            <img :src="product.image" :alt="product.name" class="product-image">
-            <h3>{{ product.name }}</h3>
-            <p class="price">¥{{ product.price.toFixed(2) }}</p>
-            <button @click="addToCart(product)" class="add-to-cart">加入购物车</button>
-          </div>
+      <div v-else class="product-grid">
+        <div v-for="product in featuredProducts" :key="product.id" class="product-card">
+          <img :src="product.image" :alt="product.name" class="product-image">
+          <h3>{{ product.name }}</h3>
+          <p class="price">¥{{ product.price.toFixed(2) }}</p>
+          <p class="sales-count">销量: {{ product.salesCount }}</p>
+          <button @click="addToCart(product)" class="add-to-cart">加入购物车</button>
         </div>
       </div>
     </section>
@@ -66,19 +55,8 @@ export default {
     const error = ref(null)
     const notifications = ref([])
 
-    const searchTerm = ref('')
+    const featuredProducts = computed(() => store.getters.featuredProducts)
 
-    const allProducts = computed(() => store.getters.allProducts)
-
-    const filteredProducts = computed(() => {
-      if (!searchTerm.value) {
-        return allProducts.value.slice(0, 4)
-      } else {
-        return allProducts.value.filter(product =>
-            product.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-        )
-      }
-    })
 
     const addToCart = (product) => {
       store.dispatch('addProductToCart', product)
@@ -98,7 +76,7 @@ export default {
 
     onMounted(async () => {
       try {
-        await store.dispatch('fetchProducts')
+        await store.dispatch('fetchFeaturedProducts')
         loading.value = false
       } catch (err) {
         error.value = '加载商品时出错，请稍后再试。'
@@ -110,10 +88,9 @@ export default {
       categories,
       loading,
       error,
-      filteredProducts,
+      featuredProducts,
       addToCart,
       notifications,
-      searchTerm
     }
   }
 }
@@ -145,27 +122,6 @@ export default {
   opacity: 0.8;
 }
 
-.search-bar {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.search-input {
-  width: 300px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-}
-
-.search-input::placeholder {
-  color: #999;
-}
-
-.search-input:focus {
-  border-color: #8e44ad;
-}
 
 .categories {
   margin-bottom: 40px;
@@ -253,6 +209,13 @@ export default {
   padding: 0 10px;
 }
 
+.sales-count {
+  font-size: 0.9em;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
+
 .add-to-cart {
   background-color: #3498db;
   color: white;
@@ -305,3 +268,4 @@ export default {
   transform: translateX(30px);
 }
 </style>
+
