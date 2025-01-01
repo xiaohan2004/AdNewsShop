@@ -23,18 +23,18 @@
             <div id="banner">banner广告</div>
         </div>
         <div id="ad2-space" class="ad2-space"> 
-            <img id="logo" src="logo.png" alt="logo">
-            <div id="marquee"><span>滚动字幕广告</span></div>
-            <div id="popup">弹出小窗口广告</div>
-            <img id="floating-img" src="floating-img.png" alt="浮动图片">
-            <div id="floating-text">浮动文字广告</div>
+            <img class="logo" src="logo.png" alt="logo">
+            <div class="marquee"><span>滚动字幕广告</span></div>
+            <div class="popup">弹出小窗口广告</div>
+            <img class="floating-img" src="floating-img.png" alt="浮动图片">
+            <div class="floating-text">浮动文字广告</div>
         </div>
         <div id="ad3-space" class="ad3-space"> 
-            <img id="logo" src="logo.png" alt="logo">
-            <div id="marquee"><span>滚动字幕广告</span></div>
-            <div id="popup">弹出小窗口广告</div>
-            <img id="floating-img" src="floating-img.png" alt="浮动图片">
-            <div id="floating-text">浮动文字广告</div>
+            <img class="logo1" src="logo.png" alt="logo">
+            <div class="marquee1"><span>滚动字幕广告</span></div>
+            <div class="popup1">弹出小窗口广告</div>
+            <img class="floating-img1" src="floating-img.png" alt="浮动图片">
+            <div class="floating-text1">浮动文字广告</div>
         </div>
     </div>
     <article>
