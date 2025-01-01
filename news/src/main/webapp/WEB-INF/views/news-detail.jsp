@@ -18,26 +18,40 @@
 </header>
 
 <main>
+    <div id="ads" class="ads">
+        <div id="ad1-space" class="ad1-space">
+            <div id="banner">banner广告</div>
+        </div>
+        <div id="ad2-space" class="ad2-space"> 
+            <img id="logo" src="logo.png" alt="logo">
+            <div id="marquee"><span>滚动字幕广告</span></div>
+            <div id="popup">弹出小窗口广告</div>
+            <img id="floating-img" src="floating-img.png" alt="浮动图片">
+            <div id="floating-text">浮动文字广告</div>
+        </div>
+        <div id="ad3-space" class="ad3-space"> 
+            <img id="logo" src="logo.png" alt="logo">
+            <div id="marquee"><span>滚动字幕广告</span></div>
+            <div id="popup">弹出小窗口广告</div>
+            <img id="floating-img" src="floating-img.png" alt="浮动图片">
+            <div id="floating-text">浮动文字广告</div>
+        </div>
+    </div>
     <article>
-        <h1>${news.title}</h1>
+        <h2>${news.title}</h2>
         <p>类别: ${news.category}</p>
         <p>发布时间: ${news.publishDate}</p>
         <div class="news-content">
-            ${news.content}
+            <p>新闻内容：${news.content}</p>
         </div>
     </article>
-
-    <aside id="ad-space">
-        <!-- Ad space -->
-        <div id="ad-container"></div>
-    </aside>
 </main>
 
 <footer>
     <p>&copy; 2024 News Website. All rights reserved.</p>
 </footer>
 
-<script src="${pageContext.request.contextPath}/js/ads.js"></script>
+<script src="${pageContext.request.contextPath}/js/news.js"></script>
 </body>
 </html>
 
