@@ -13,5 +13,8 @@ public class WebsiteOperator {
     private String password;
     private String websiteUrl;
     private String token;
+    private Integer requesttimes;
+    private Integer addtimes;
+    private Integer clicktimes;
 }
 

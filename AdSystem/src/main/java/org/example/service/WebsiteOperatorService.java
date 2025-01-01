@@ -12,5 +12,6 @@ public interface WebsiteOperatorService {
     void deleteById(Integer id);
     WebsiteOperator login(WebsiteOperator websiteOperator);
     WebsiteOperator register(WebsiteOperator websiteOperator);
+    void addCTByToken(String token);
 }
 

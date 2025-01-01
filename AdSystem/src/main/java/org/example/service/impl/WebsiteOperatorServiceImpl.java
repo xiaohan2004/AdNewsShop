@@ -64,5 +64,10 @@ public class WebsiteOperatorServiceImpl implements WebsiteOperatorService {
         websiteOperatorMapper.insert(websiteOperator);
         return websiteOperator;
     }
+
+    @Override
+    public void addCTByToken(String token) {
+        websiteOperatorMapper.addCTBytoken(token);
+    }
 }
 

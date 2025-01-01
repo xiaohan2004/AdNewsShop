@@ -10,7 +10,9 @@ CREATE TABLE advertisements
     content       TEXT        NOT NULL COMMENT '广告内容',
     ad_type       VARCHAR(50) NOT NULL COMMENT '广告类型或标签',
     image_url     VARCHAR(255) COMMENT '广告图片的URL地址',
-    advertiser_id INT COMMENT '关联的广告商ID'
+    advertiser_id INT COMMENT '关联的广告商ID',
+    requesttimes INT DEFAULT 0 COMMENT '请求次数',
+    clicktimes   INT DEFAULT 0 COMMENT '点击次数'
 ) COMMENT '存储广告信息的表';
 
 -- 创建管理员表
@@ -40,16 +42,16 @@ CREATE TABLE users
     pre2                      VARCHAR(255) COMMENT '预留字段2',
     pre3                      VARCHAR(255) COMMENT '预留字段3',
     pre4                      VARCHAR(255) COMMENT '预留字段4',
-    interest_games            INT COMMENT '用户对游戏类广告的兴趣度',
-    interest_digital_products INT COMMENT '用户对数码类广告的兴趣度',
-    interest_automotive       INT COMMENT '用户对汽车类广告的兴趣度',
-    interest_lifestyle        INT COMMENT '用户对生活类广告的兴趣度',
-    interest_travel           INT COMMENT '用户对旅游类广告的兴趣度',
-    interest_entertainment    INT COMMENT '用户对娱乐类广告的兴趣度',
-    interest_food             INT COMMENT '用户对美食类广告的兴趣度',
-    interest_fashion          INT COMMENT '用户对时尚类广告的兴趣度',
-    interest_health           INT COMMENT '用户对医疗类广告的兴趣度',
-    interest_sports           INT COMMENT '用户对体育类广告的兴趣度'
+    interest_games            INT DEFAULT 0 COMMENT '用户对游戏类广告的兴趣度',
+    interest_digital_products INT DEFAULT 0 COMMENT '用户对数码类广告的兴趣度',
+    interest_automotive       INT DEFAULT 0 COMMENT '用户对汽车类广告的兴趣度',
+    interest_lifestyle        INT DEFAULT 0 COMMENT '用户对生活类广告的兴趣度',
+    interest_travel           INT DEFAULT 0 COMMENT '用户对旅游类广告的兴趣度',
+    interest_entertainment    INT DEFAULT 0 COMMENT '用户对娱乐类广告的兴趣度',
+    interest_food             INT DEFAULT 0 COMMENT '用户对美食类广告的兴趣度',
+    interest_fashion          INT DEFAULT 0 COMMENT '用户对时尚类广告的兴趣度',
+    interest_health           INT DEFAULT 0 COMMENT '用户对医疗类广告的兴趣度',
+    interest_sports           INT DEFAULT 0 COMMENT '用户对体育类广告的兴趣度'
 ) COMMENT '存储用户信息和兴趣偏好的表';
 
 -- 创建网站运营者表
@@ -59,7 +61,10 @@ CREATE TABLE website_operators
     username    VARCHAR(50)  NOT NULL UNIQUE COMMENT '运营者登录账号',
     password    VARCHAR(255) NOT NULL COMMENT '运营者登录密码（应该进行加密存储）',
     website_url VARCHAR(255) COMMENT '运营的网站URL',
-    token       VARCHAR(255) COMMENT '用于身份验证或API访问的令牌'
+    token       VARCHAR(255) COMMENT '用于身份验证或API访问的令牌',
+    requesttimes INT DEFAULT 0 COMMENT '请求次数',
+    addtimes     INT DEFAULT 0 COMMENT '添加次数',
+    clicktimes   INT DEFAULT 0 COMMENT '点击次数'
 ) COMMENT '存储网站运营者信息的表';
 
 -- 创建操作日志表

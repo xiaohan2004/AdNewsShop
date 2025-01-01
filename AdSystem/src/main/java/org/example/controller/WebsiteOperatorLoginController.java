@@ -27,6 +27,7 @@ public class WebsiteOperatorLoginController {
         //登录成功,生成令牌,下发令牌
         if (w != null){
             Map<String, Object> claims = new HashMap<>();
+            claims.put("id", w.getId());
             claims.put("username", w.getUsername());
 
             String jwt = JwtUtils.generateJwt(claims); //jwt包含了当前登录的网站运营人员信息

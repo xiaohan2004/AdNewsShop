@@ -23,5 +23,17 @@ public interface AdvertisementMapper {
 
     @Delete("DELETE FROM advertisements WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT * FROM advertisements WHERE advertiser_id = #{id}")
+    List<Advertisement> findByAdvertiserId(Integer id);
+
+    @Select("SELECT * FROM advertisements WHERE ad_type = #{adType}")
+    List<Advertisement> getAdsByType(String adType);
+
+    @Update("UPDATE advertisements SET requesttimes = requesttimes+1 WHERE id = #{id}")
+    void addRTById(Integer id);
+
+    @Update("UPDATE advertisements SET clicktimes = clicktimes+1 WHERE id = #{id}")
+    void addCTById(Integer id);
 }
 
