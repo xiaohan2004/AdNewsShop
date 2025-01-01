@@ -104,18 +104,18 @@
       text-align: center;
   }
   
-  #banner {
+  .banner {
       font-size: 18px;
       font-weight: bold;
       color: #333;
   }
   
-  #logo {
+  .logo {
       width: 80px;
       height: auto;
   }
   
-  #marquee {
+  .marquee {
       overflow: hidden;
       white-space: nowrap;
       animation: marquee 10s linear infinite;
@@ -132,7 +132,7 @@
       }
   }
   
-  #popup {
+  .popup {
       position: fixed;
       top: 10px;
       right: 10px;
@@ -147,7 +147,7 @@
       color: white;
   }
   
-  #floating-img {
+  .floating-img {
       width: 80px;
       height: auto;
       animation: floating 3s ease-in-out infinite;
