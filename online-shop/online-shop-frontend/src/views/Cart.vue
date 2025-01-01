@@ -41,7 +41,9 @@ export default {
     const cartTotal = computed(() => store.getters.cartTotal)
 
     const removeFromCart = (productId) => {
-      store.dispatch('removeProductFromCart', productId)
+      if (confirm('确定要从购物车中移除此商品吗？')) {
+        store.dispatch('removeProductFromCart', productId)
+      }
     }
 
     const increaseQuantity = (productId) => {
@@ -50,14 +52,15 @@ export default {
 
     const decreaseQuantity = (productId) => {
       const item = cartItems.value.find(item => item.id === productId)
-      if (item) {
-        if (item.quantity > 1) {
-          store.dispatch('decreaseCartItemQuantity', productId)
-        } else {
-          store.dispatch('removeProductFromCart', productId)
-        }
+      if (item && item.quantity >= 1) {
+        store.dispatch('decreaseCartItemQuantity', productId)
+      }
+      if (item && item.quantity == 0){
+        store.dispatch('removeProductFromCart',productId)
       }
     }
+
+
 
     const checkout = () => {
       // 这里应该实现结算逻辑

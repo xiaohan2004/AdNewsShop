@@ -25,14 +25,7 @@ export default createStore({
       }
     },
     removeFromCart(state, productId) {
-      const index = state.cart.findIndex(item => item.id === productId)
-      if (index !== -1) {
-        if (state.cart[index].quantity > 1) {
-          state.cart[index].quantity--
-        } else {
-          state.cart.splice(index, 1)
-        }
-      }
+      state.cart = state.cart.filter(item => item.id !== productId)
     },
     increaseQuantity(state, productId) {
       const item = state.cart.find(item => item.id === productId)
@@ -42,7 +35,7 @@ export default createStore({
     },
     decreaseQuantity(state, productId) {
       const item = state.cart.find(item => item.id === productId)
-      if (item && item.quantity > 1) {
+      if (item && item.quantity >= 1) {
         item.quantity--
       }
     },

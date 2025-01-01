@@ -5,6 +5,16 @@
       <p>{{ pageDescription }}</p>
     </section>
 
+
+    <section class="search-bar">
+      <input
+          type="text"
+          v-model="searchTerm"
+          placeholder="搜索商品名称"
+          class="search-input"
+      />
+    </section>
+
     <section class="categories">
       <div v-for="cat in categories" :key="cat"
            class="category-tag"
@@ -37,13 +47,18 @@
     <section class="product-list">
       <div v-if="loading" class="loading">加载中...</div>
       <div v-else-if="error" class="error">{{ error }}</div>
-      <div v-else class="product-grid">
-        <div v-for="product in filteredAndSortedProducts" :key="product.id" class="product-card">
-          <img :src="product.image" :alt="product.name" class="product-image">
-          <div class="product-info">
-            <h3>{{ product.name }}</h3>
-            <p class="price">¥{{ product.price.toFixed(2) }}</p>
-            <p class="description">{{ product.description }}</p>
+      <div v-else>
+        <div v-if="filteredAndSortedProducts.length === 0" class="no-results">没有找到匹配的商品</div>
+        <div v-else class="product-grid">
+          <div v-for="product in filteredAndSortedProducts" :key="product.id" class="product-card">
+            <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }">
+              <img :src="product.image" :alt="product.name" class="product-image">
+              <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p class="price">¥{{ product.price.toFixed(2) }}</p>
+                <p class="description">{{ product.description }}</p>
+              </div>
+            </router-link>
             <button @click="addToCart(product)" class="add-to-cart">
               加入购物车
             </button>
@@ -51,6 +66,7 @@
         </div>
       </div>
     </section>
+
     <div class="pagination">
       <button
           @click="currentPage--"
@@ -93,6 +109,7 @@ export default {
     const sortBy = ref('price-asc')
     const minPrice = ref('')
     const maxPrice = ref('')
+    const searchTerm = ref('') // 搜索关键词
     const loading = ref(true)
     const error = ref(null)
     const notifications = ref([])
@@ -110,6 +127,13 @@ export default {
       // 按类别过滤
       if (category.value && category.value !== '全部') {
         products = products.filter(product => product.category === category.value)
+      }
+
+      // 按搜索关键词过滤
+      if (searchTerm.value) {
+        products = products.filter(product =>
+            product.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+        )
       }
 
       // 按价格过滤
@@ -150,6 +174,9 @@ export default {
           return false
         }
         if (maxPrice.value !== '' && product.price > Number(maxPrice.value)) {
+          return false
+        }
+        if (searchTerm.value && !product.name.toLowerCase().includes(searchTerm.value.toLowerCase())) {
           return false
         }
         return true
@@ -207,6 +234,7 @@ export default {
       sortBy,
       minPrice,
       maxPrice,
+      searchTerm,
       loading,
       error,
       pageTitle,
@@ -249,6 +277,27 @@ export default {
   opacity: 0.8;
 }
 
+.search-bar {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-input:focus {
+  border-color: #8e44ad;
+}
 .categories {
   display: flex;
   flex-wrap: wrap;
@@ -385,7 +434,12 @@ export default {
 .error {
   color: red;
 }
-
+.no-results {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  padding: 20px;
+}
 .notifications {
   position: fixed;
   top: 20px;
