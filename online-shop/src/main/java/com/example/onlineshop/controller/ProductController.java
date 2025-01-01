@@ -47,6 +47,16 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
-}
 
+    @GetMapping("/featured")
+    public List<Product> getFeaturedProducts() {
+        return productService.getFeaturedProducts();
+    }
+
+    @PostMapping("/{id}/increment-sales")
+    public ResponseEntity<?> incrementSalesCount(@PathVariable Long id) {
+        productService.incrementSalesCount(id);
+        return ResponseEntity.ok().build();
+    }
+}
 

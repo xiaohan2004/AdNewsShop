@@ -17,6 +17,8 @@
               <th>名称</th>
               <th>价格</th>
               <th>类别</th>
+              <th>销量</th>
+              <th>精选</th>
               <th>操作</th>
             </tr>
             </thead>
@@ -27,6 +29,15 @@
               <td>{{ product.name }}</td>
               <td>¥{{ product.price.toFixed(2) }}</td>
               <td>{{ product.category }}</td>
+              <td>{{ product.salesCount }}</td>
+              <td>
+                <input
+                    type="checkbox"
+                    :checked="product.featured"
+                    @change="toggleFeatured(product)"
+                    :disabled="!product.featured && featuredProductsCount >= 4"
+                >
+              </td>
               <td>
                 <button @click="editProduct(product)" class="btn btn-edit">编辑</button>
                 <button @click="deleteProduct(product.id)" class="btn btn-delete">删除</button>
@@ -69,6 +80,14 @@
             <label for="description">描述：</label>
             <textarea id="description" v-model="currentProduct.description" required></textarea>
           </div>
+          <div class="form-group">
+            <label for="salesCount">销量：</label>
+            <input id="salesCount" v-model="currentProduct.salesCount" type="number" required>
+          </div>
+          <div class="form-group">
+            <label for="featured">精选：</label>
+            <input id="featured" v-model="currentProduct.featured" type="checkbox">
+          </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">保存</button>
             <button type="button" @click="cancelForm" class="btn btn-secondary">取消</button>
@@ -80,7 +99,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -94,6 +113,7 @@ export default {
     const categories = ['游戏', '数码产品', '汽车', '生活', '旅游', '娱乐', '美食', '时尚', '健康医疗', '体育']
 
     const products = computed(() => store.getters.allProducts)
+    const featuredProductsCount = computed(() => products.value.filter(p => p.featured).length)
 
     const fetchProducts = () => {
       store.dispatch('fetchProducts')
@@ -103,14 +123,9 @@ export default {
       fetchProducts()
     })
 
-    watch(() => store.state.products, () => {
-      // 当产品列表发生变化时，重新获取产品列表
-      fetchProducts()
-    })
-
     const showAddForm = () => {
       showForm.value = true
-      currentProduct.value = {}
+      currentProduct.value = { featured: false, salesCount: 0 }
       formTitle.value = '添加新商品'
     }
 
@@ -121,11 +136,7 @@ export default {
     }
 
     const submitForm = async () => {
-      if (currentProduct.value.id) {
-        await store.dispatch('updateProduct', currentProduct.value)
-      } else {
-        await store.dispatch('addProduct', currentProduct.value)
-      }
+      await store.dispatch('updateProduct', currentProduct.value)
       showForm.value = false
       fetchProducts()
     }
@@ -141,17 +152,28 @@ export default {
       }
     }
 
+    const toggleFeatured = async (product) => {
+      if (!product.featured && featuredProductsCount.value >= 4) {
+        alert('最多只能选择4个精选商品')
+        return
+      }
+      await store.dispatch('updateProduct', { ...product, featured: !product.featured })
+      fetchProducts()
+    }
+
     return {
       products,
       showForm,
       currentProduct,
       formTitle,
       categories,
+      featuredProductsCount,
       showAddForm,
       editProduct,
       submitForm,
       cancelForm,
-      deleteProduct
+      deleteProduct,
+      toggleFeatured
     }
   }
 }

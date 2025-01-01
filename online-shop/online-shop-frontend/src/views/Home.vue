@@ -5,6 +5,7 @@
       <p>探索精选商品，体验卓越购物</p>
     </section>
 
+
     <section class="categories">
       <h2>商品分类</h2>
       <div class="category-grid">
@@ -28,6 +29,7 @@
           <img :src="product.image" :alt="product.name" class="product-image">
           <h3>{{ product.name }}</h3>
           <p class="price">¥{{ product.price.toFixed(2) }}</p>
+          <p class="sales-count">销量: {{ product.salesCount }}</p>
           <button @click="addToCart(product)" class="add-to-cart">加入购物车</button>
         </div>
       </div>
@@ -53,9 +55,8 @@ export default {
     const error = ref(null)
     const notifications = ref([])
 
-    const featuredProducts = computed(() => {
-      return store.getters.allProducts.slice(0, 4)
-    })
+    const featuredProducts = computed(() => store.getters.featuredProducts)
+
 
     const addToCart = (product) => {
       store.dispatch('addProductToCart', product)
@@ -75,7 +76,7 @@ export default {
 
     onMounted(async () => {
       try {
-        await store.dispatch('fetchProducts')
+        await store.dispatch('fetchFeaturedProducts')
         loading.value = false
       } catch (err) {
         error.value = '加载商品时出错，请稍后再试。'
@@ -89,7 +90,7 @@ export default {
       error,
       featuredProducts,
       addToCart,
-      notifications
+      notifications,
     }
   }
 }
@@ -120,6 +121,7 @@ export default {
   font-size: 1.2em;
   opacity: 0.8;
 }
+
 
 .categories {
   margin-bottom: 40px;
@@ -203,6 +205,13 @@ export default {
 .price {
   font-weight: bold;
   color: #e74c3c;
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
+
+.sales-count {
+  font-size: 0.9em;
+  color: #7f8c8d;
   margin-bottom: 10px;
   padding: 0 10px;
 }

@@ -6,11 +6,15 @@ const API_BASE_URL = 'http://localhost:8080/api';
 export default createStore({
   state: {
     products: [],
+    featuredProducts: [],
     cart: []
   },
   mutations: {
     setProducts(state, products) {
       state.products = products
+    },
+    setFeaturedProducts(state, products) {
+      state.featuredProducts = products
     },
     addToCart(state, product) {
       const existingItem = state.cart.find(item => item.id === product.id)
@@ -45,17 +49,11 @@ export default createStore({
     clearCart(state) {
       state.cart = []
     },
-    addProduct(state, product) {
-      state.products.push(product)
-    },
     updateProduct(state, updatedProduct) {
       const index = state.products.findIndex(p => p.id === updatedProduct.id)
       if (index !== -1) {
         state.products.splice(index, 1, updatedProduct)
       }
-    },
-    deleteProduct(state, productId) {
-      state.products = state.products.filter(p => p.id !== productId)
     }
   },
   actions: {
@@ -68,8 +66,23 @@ export default createStore({
         commit('setProducts', [])
       }
     },
-    addProductToCart({ commit }, product) {
+    async fetchFeaturedProducts({ commit }) {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/products/featured`)
+        commit('setFeaturedProducts', response.data)
+      } catch (error) {
+        console.error('Error fetching featured products:', error)
+        commit('setFeaturedProducts', [])
+      }
+    },
+    async addProductToCart({ commit, dispatch }, product) {
       commit('addToCart', product)
+      try {
+        await axios.post(`${API_BASE_URL}/products/${product.id}/increment-sales`)
+        dispatch('fetchProducts')  // Refresh the product list to update sales count
+      } catch (error) {
+        console.error('Error incrementing sales count:', error)
+      }
     },
     removeProductFromCart({ commit }, productId) {
       commit('removeFromCart', productId)
@@ -83,36 +96,18 @@ export default createStore({
     clearCart({ commit }) {
       commit('clearCart')
     },
-    async addProduct({ commit, dispatch }, product) {
-      try {
-        const response = await axios.post(`${API_BASE_URL}/products`, product)
-        commit('addProduct', response.data)
-        dispatch('fetchProducts')  // 重新获取所有产品以确保ID正确
-      } catch (error) {
-        console.error('Error adding product:', error)
-      }
-    },
-    async updateProduct({ commit, dispatch }, product) {
+    async updateProduct({ commit }, product) {
       try {
         const response = await axios.put(`${API_BASE_URL}/products/${product.id}`, product)
         commit('updateProduct', response.data)
-        dispatch('fetchProducts')  // 重新获取所有产品以确保ID正确
       } catch (error) {
         console.error('Error updating product:', error)
-      }
-    },
-    async deleteProduct({ commit, dispatch }, productId) {
-      try {
-        await axios.delete(`${API_BASE_URL}/products/${productId}`)
-        commit('deleteProduct', productId)
-        dispatch('fetchProducts')  // 重新获取所有产品以确保ID正确
-      } catch (error) {
-        console.error('Error deleting product:', error)
       }
     }
   },
   getters: {
     allProducts: state => state.products,
+    featuredProducts: state => state.featuredProducts,
     cartItems: state => state.cart,
     cartTotal: state => state.cart.reduce((total, item) => total + item.price * item.quantity, 0)
   }

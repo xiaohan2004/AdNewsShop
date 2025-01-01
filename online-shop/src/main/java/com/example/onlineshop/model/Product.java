@@ -15,20 +15,40 @@ public class Product {
     private String category;
     private String image;
     private String description;
+    private int salesCount;
+    private boolean featured;
 
     // Constructors, getters, and setters
 
     public Product() {}
 
-    public Product(String name, double price, String category, String image, String description) {
+    public Product(String name, double price, String category, String image, String description, int salesCount, boolean featured) {
         this.name = name;
         this.price = price;
         this.category = category;
         this.image = image;
         this.description = description;
+        this.salesCount = salesCount;
+        this.featured = featured;
     }
 
-    // Getters and setters
+    // Existing getters and setters...
+
+    public int getSalesCount() {
+        return salesCount;
+    }
+
+    public void setSalesCount(int salesCount) {
+        this.salesCount = salesCount;
+    }
+
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
 
     public Long getId() {
         return id;
