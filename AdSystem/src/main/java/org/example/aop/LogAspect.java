@@ -36,12 +36,17 @@ public class LogAspect {
         if (methodName.contains("login") || methodName.contains("register") || methodName.contains("Log")) {
             return joinPoint.proceed();
         }
-
-        //操作人ID - 当前登录员工ID
-        //获取请求头中的jwt令牌, 解析令牌
-        String jwt = request.getHeader("token");
-        Claims claims = JwtUtils.parseJWT(jwt);
-        String operateUsername = (String) claims.get("username");
+        String operateUsername;
+        try {
+            //操作人ID - 当前登录员工ID
+            //获取请求头中的jwt令牌, 解析令牌
+            String jwt = request.getHeader("token");
+            Claims claims = JwtUtils.parseJWT(jwt);
+            operateUsername = (String) claims.get("username");
+        } catch (Exception e) {
+            log.error("解析令牌失败");
+            return joinPoint.proceed();
+        }
 
         //操作时间
         LocalDateTime operateTime = LocalDateTime.now();
