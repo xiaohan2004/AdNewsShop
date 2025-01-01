@@ -11,5 +11,7 @@ public interface AdvertisementService {
     Advertisement update(Integer id, Advertisement advertisement);
     void deleteById(Integer id);
     List<Advertisement> findByAdvertiserId(Integer id);
+    Advertisement getAdsByFP(String fp, String token);
+    void addCTById(Integer id);
 }
 

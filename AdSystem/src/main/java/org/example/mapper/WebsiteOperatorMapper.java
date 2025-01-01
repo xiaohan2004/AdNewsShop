@@ -29,5 +29,14 @@ public interface WebsiteOperatorMapper {
 
     @Select("SELECT * FROM website_operators WHERE username = #{username}")
     WebsiteOperator findByUsername(WebsiteOperator websiteOperator);
+
+    @Update("UPDATE website_operators SET requesttimes = requesttimes+1 WHERE token = #{token}")
+    void addRTBytoken(String token);
+
+    @Update("UPDATE website_operators SET addtimes = addtimes+1 WHERE token = #{token}")
+    void addATBytoken(String token);
+
+    @Update("UPDATE website_operators SET clicktimes = clicktimes+1 WHERE token = #{token}")
+    void addCTBytoken(String token);
 }
 

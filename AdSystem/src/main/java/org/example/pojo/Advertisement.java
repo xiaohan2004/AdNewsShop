@@ -14,4 +14,6 @@ public class Advertisement {
     private String adType;
     private String imageUrl;
     private Integer advertiserId;
+    private Integer requesttimes;
+    private Integer clicktimes;
 }

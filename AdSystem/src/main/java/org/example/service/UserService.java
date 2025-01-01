@@ -10,4 +10,5 @@ public interface UserService {
     User create(User user);
     User update(Integer id, User user);
     void deleteById(Integer id);
+    int addInterestByFP(String fp, String interest, String token);
 }

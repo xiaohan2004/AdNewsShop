@@ -23,4 +23,52 @@ public interface UserMapper {
 
     @Delete("DELETE FROM users WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT \n" +
+            "    CASE greatest_interest\n" +
+            "        WHEN interest_games THEN 'games'\n" +
+            "        WHEN interest_digital_products THEN 'digital_products'\n" +
+            "        WHEN interest_automotive THEN 'automotive'\n" +
+            "        WHEN interest_lifestyle THEN 'lifestyle'\n" +
+            "        WHEN interest_travel THEN 'travel'\n" +
+            "        WHEN interest_entertainment THEN 'entertainment'\n" +
+            "        WHEN interest_food THEN 'food'\n" +
+            "        WHEN interest_fashion THEN 'fashion'\n" +
+            "        WHEN interest_health THEN 'health'\n" +
+            "        WHEN interest_sports THEN 'sports'\n" +
+            "    END AS highest_interest_category\n" +
+            "FROM (\n" +
+            "    SELECT \n" +
+            "        GREATEST(\n" +
+            "            interest_games,\n" +
+            "            interest_digital_products,\n" +
+            "            interest_automotive,\n" +
+            "            interest_lifestyle,\n" +
+            "            interest_travel,\n" +
+            "            interest_entertainment,\n" +
+            "            interest_food,\n" +
+            "            interest_fashion,\n" +
+            "            interest_health,\n" +
+            "            interest_sports\n" +
+            "        ) AS greatest_interest,\n" +
+            "        interest_games,\n" +
+            "        interest_digital_products,\n" +
+            "        interest_automotive,\n" +
+            "        interest_lifestyle,\n" +
+            "        interest_travel,\n" +
+            "        interest_entertainment,\n" +
+            "        interest_food,\n" +
+            "        interest_fashion,\n" +
+            "        interest_health,\n" +
+            "        interest_sports\n" +
+            "    FROM users\n" +
+            "    WHERE browser_fingerprint = #{fp}\n" +
+            ") subquery;")
+    String getInterestByFP(String fp);
+
+    @Update("UPDATE users SET ${interest} = ${interest} + 1 WHERE browser_fingerprint = #{fp}")
+    int addInterestByFP(String fp, String id);
+
+    @Select("SELECT * FROM users WHERE browser_fingerprint = #{fp}")
+    User findByFP(String fp);
 }
