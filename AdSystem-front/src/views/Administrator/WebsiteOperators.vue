@@ -205,7 +205,7 @@ export default {
         clicktimes: 0,
       },
       currentPage: 1,
-      pageSize: 8
+      pageSize: 6
     };
   },
   computed: {

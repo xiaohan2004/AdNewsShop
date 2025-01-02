@@ -41,7 +41,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[10, 20, 50, 100]"
+          :page-sizes="[5,10, 20, 50, 100]"
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="advertisementData.length"
@@ -75,7 +75,7 @@ export default {
     const advertisementData = ref([])
     const isLoading = ref(false)
     const currentPage = ref(1)
-    const pageSize = ref(7)
+    const pageSize = ref(5)
     const chartRefs = ref({})
     const charts = ref({})
 

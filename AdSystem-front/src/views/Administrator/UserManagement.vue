@@ -224,31 +224,31 @@
           </el-col>
         </el-row>
 
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="pre1">
-              <el-input v-model="newUser.pre1"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="pre2">
-              <el-input v-model="newUser.pre2"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+<!--        <el-row :gutter="20">-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="pre1">-->
+<!--              <el-input v-model="newUser.pre1"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="pre2">-->
+<!--              <el-input v-model="newUser.pre2"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
 
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="pre3">
-              <el-input v-model="newUser.pre3"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="pre4">
-              <el-input v-model="newUser.pre4"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+<!--        <el-row :gutter="20">-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="pre3">-->
+<!--              <el-input v-model="newUser.pre3"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="pre4">-->
+<!--              <el-input v-model="newUser.pre4"></el-input>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
 
         <el-row :gutter="20">
           <el-col :span="12">

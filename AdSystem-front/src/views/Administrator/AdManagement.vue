@@ -46,12 +46,23 @@
 
       <el-table-column label="类型" prop="adType">
         <template #default="{ row }">
-          <el-input
+          <el-select
               v-if="row.isEditing"
               v-model="row.adType"
               size="small"
-              placeholder="请输入类型"
-          ></el-input>
+              placeholder="选择类型"
+          >
+              <el-option label="games" value="games"></el-option>
+              <el-option label="digital_products" value="digital_products"></el-option>
+              <el-option label="automotive" value="automotive"></el-option>
+              <el-option label="lifestyle" value="lifestyle"></el-option>
+              <el-option label="travel" value="travel"></el-option>
+              <el-option label="entertainment" value="entertainment"></el-option>
+              <el-option label="food" value="food"></el-option>
+              <el-option label="fashion" value="fashion"></el-option>
+              <el-option label="health" value="health"></el-option>
+              <el-option label="sports" value="sports"></el-option>
+          </el-select>
           <span v-else>{{ row.adType }}</span>
         </template>
       </el-table-column>
@@ -162,7 +173,18 @@
           <el-input v-model="newAdvertisement.content"></el-input>
         </el-form-item>
         <el-form-item label="类别">
-          <el-input v-model="newAdvertisement.adType"></el-input>
+          <el-select v-model="newAdvertisement.adType" placeholder="选择类别">
+            <el-option label="games" value="games"></el-option>
+            <el-option label="digital_products" value="digital_products"></el-option>
+            <el-option label="automotive" value="automotive"></el-option>
+            <el-option label="lifestyle" value="lifestyle"></el-option>
+            <el-option label="travel" value="travel"></el-option>
+            <el-option label="entertainment" value="entertainment"></el-option>
+            <el-option label="food" value="food"></el-option>
+            <el-option label="fashion" value="fashion"></el-option>
+            <el-option label="health" value="health"></el-option>
+            <el-option label="sports" value="sports"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="图片">
           <el-upload
