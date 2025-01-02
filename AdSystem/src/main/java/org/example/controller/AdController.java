@@ -52,11 +52,13 @@ public class AdController {
     }
 
     @PostMapping("/get/{fp}")
+    @ResponseBody
     public Result getAdsByFP(@PathVariable String fp, @RequestBody WebsiteOperator websiteOperator) {
         return Result.success(advertisementService.getAdsByFP(fp, websiteOperator.getToken()));
     }
 
     @PostMapping("/post/{fp}/{interest}")
+    @ResponseBody
     public Result postUserByFP(@PathVariable String fp, @PathVariable String interest, @RequestBody WebsiteOperator websiteOperator) {
         return Result.success(userService.addInterestByFP(fp, interest, websiteOperator.getToken()));
     }

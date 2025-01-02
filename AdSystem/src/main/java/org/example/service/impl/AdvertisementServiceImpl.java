@@ -66,8 +66,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     @Transactional
     public Advertisement getAdsByFP(String fp, String token) {
-        String interest = userMapper.getInterestByFP(fp);
-        if (interest != null) {
+        User user = userMapper.findByFP(fp);
+        if (user != null) {
+            String interest = userMapper.getInterestByFP(fp);
             websiteOperatorMapper.addRTBytoken(token);
             List<Advertisement> ads = advertisementMapper.getAdsByType(interest);
             //随机返回一个广告
@@ -76,9 +77,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             return ad;
         }
         else {
-            User user = new User();
-            user.setBrowserFingerprint(fp);
-            userMapper.insert(user);
+            User newUser = new User();
+            newUser.setBrowserFingerprint(fp);
+            userMapper.insert(newUser);
             websiteOperatorMapper.addATBytoken(token);
             List<Advertisement> ads = advertisementMapper.findAll();
             //随机返回一个广告
