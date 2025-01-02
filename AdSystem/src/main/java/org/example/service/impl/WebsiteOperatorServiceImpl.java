@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WebsiteOperatorServiceImpl implements WebsiteOperatorService {
@@ -68,6 +69,19 @@ public class WebsiteOperatorServiceImpl implements WebsiteOperatorService {
     @Override
     public void addCTByToken(String token) {
         websiteOperatorMapper.addCTBytoken(token);
+    }
+
+    @Override
+    public void deleteTokenById(Integer id) {
+        websiteOperatorMapper.deleteTokenById(id);
+    }
+
+    @Override
+    public String reflushTokenById(Integer id) {
+        // 生成token
+        String token = UUID.randomUUID().toString();
+        websiteOperatorMapper.reflushTokenById(id, token);
+        return token;
     }
 }
 

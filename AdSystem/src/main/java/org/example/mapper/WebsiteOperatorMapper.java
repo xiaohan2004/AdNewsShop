@@ -38,5 +38,11 @@ public interface WebsiteOperatorMapper {
 
     @Update("UPDATE website_operators SET clicktimes = clicktimes+1 WHERE token = #{token}")
     void addCTBytoken(String token);
+
+    @Update("UPDATE website_operators SET token = null WHERE id = #{id}")
+    void deleteTokenById(Integer id);
+
+    @Update("UPDATE website_operators SET token = #{token} WHERE id = #{id}")
+    void reflushTokenById(Integer id, String token);
 }
 

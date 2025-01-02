@@ -56,5 +56,21 @@ public class WebsiteOperatorController {
         websiteOperatorService.deleteById(id);
         return Result.success();
     }
+
+    @DeleteMapping("/token/{id}")
+    public Result deleteWebsiteOperatorToken(@PathVariable Integer id) {
+        websiteOperatorService.deleteTokenById(id);
+        return Result.success();
+    }
+
+    @GetMapping("/token/{id}")
+    public Result reflushWebsiteOperatorToken(@PathVariable Integer id) {
+        String token = websiteOperatorService.reflushTokenById(id);
+        if (token != null) {
+            return Result.success(token);
+        } else {
+            return Result.error("Not Found");
+        }
+    }
 }
 
