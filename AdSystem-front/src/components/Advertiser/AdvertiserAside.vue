@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <el-menu default-active="1" class="el-menu-vertical-demo">
-      <el-menu-item index="1" @click="goToPage('/reception/table-status')">广告数据</el-menu-item>
+      <el-menu-item index="1" @click="goToPage('/advertiser/ad-data')">广告数据</el-menu-item>
       <el-menu-item index="2" @click="goToPage('/advertiser/ad-delivery')">广告投放</el-menu-item>
     </el-menu>
   </div>

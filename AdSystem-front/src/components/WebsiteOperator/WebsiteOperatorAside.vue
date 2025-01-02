@@ -1,8 +1,8 @@
 <template>
   <div class="sidebar">
     <el-menu default-active="1" class="el-menu-vertical-demo">
-      <el-menu-item index="1" @click="goToPage('/reception/table-status')">收益</el-menu-item>
-      <el-menu-item index="2" @click="goToPage('/reception/dish-status')">API管理</el-menu-item>
+      <el-menu-item index="1" @click="goToPage('/website-operator/revenue')">收益</el-menu-item>
+      <el-menu-item index="2" @click="goToPage('/website-operator/api')">API管理</el-menu-item>
     </el-menu>
   </div>
 </template>

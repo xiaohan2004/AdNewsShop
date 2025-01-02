@@ -79,7 +79,7 @@
               v-if="row.isEditing"
               v-model="row.advertiserId"
               size="small"
-              placeholder="请输入广告商编号"
+              disabled
           ></el-input>
           <span v-else>{{ row.advertiserId }}</span>
         </template>
@@ -138,7 +138,18 @@
           <el-input v-model="newAdvertisement.content"></el-input>
         </el-form-item>
         <el-form-item label="类别">
-          <el-input v-model="newAdvertisement.adType"></el-input>
+          <el-select v-model="newAdvertisement.adType" placeholder="选择类别">
+            <el-option label="games" value="games"></el-option>
+            <el-option label="digital_products" value="digital_products"></el-option>
+            <el-option label="automotive" value="automotive"></el-option>
+            <el-option label="lifestyle" value="lifestyle"></el-option>
+            <el-option label="travel" value="travel"></el-option>
+            <el-option label="entertainment" value="entertainment"></el-option>
+            <el-option label="food" value="food"></el-option>
+            <el-option label="fashion" value="fashion"></el-option>
+            <el-option label="health" value="health"></el-option>
+            <el-option label="sports" value="sports"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="图片">
           <el-upload
@@ -153,8 +164,9 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="广告商编号">
-          <el-input v-model="newAdvertisement.advertiserId"></el-input>
+          <el-input v-model="newAdvertisement.advertiserId" :disabled="true"></el-input>
         </el-form-item>
+
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -194,10 +206,21 @@ export default {
       content: '',
       adType: '',
       imageUrl: '',
-      advertiserId: '',
+      advertiserId: '',  // 这里需要将 advertiserId 设置为从 token 获取的 id
     })
     const currentPage = ref(1)
     const pageSize = ref(7)
+
+    // 从 token 中获取 advertiserId
+    const token = localStorage.getItem('jwt')
+    let advertiserId = ''
+    if (token) {
+      const {payload} = parseJWT(token)
+      advertiserId = payload.id  // 获取 id
+    }
+
+    // 设置新广告的 advertiserId 为从 token 获取的值
+    newAdvertisement.value.advertiserId = advertiserId
 
     const filteredAdvertisementData = computed(() => advertisementData.value)
     const paginatedAdvertisementData = computed(() => {
@@ -215,7 +238,7 @@ export default {
           throw new Error('No token found')
         }
 
-        const { payload } = parseJWT(token)
+        const {payload} = parseJWT(token)
         const id = payload.id
 
         const response = await api.get(`/api/advertisements/advertiser/${id}`)
@@ -225,8 +248,7 @@ export default {
               ? response.data.data
               : [response.data.data];  // 如果是单个广告，包装成数组
           console.log('Total advertisements:', advertisementData.value.length);  // 输出总广告数量
-        }
-        else {
+        } else {
           throw new Error('Failed to fetch data')
         }
       } catch (error) {
@@ -388,9 +410,11 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
 .avatar-uploader .el-upload:hover {
   border-color: #409EFF;
 }
+
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
@@ -399,13 +423,13 @@ export default {
   line-height: 178px;
   text-align: center;
 }
+
 .avatar {
   width: 178px;
   height: 178px;
   display: block;
 }
 </style>
-
 
 
 <style scoped>
