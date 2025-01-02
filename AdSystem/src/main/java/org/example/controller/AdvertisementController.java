@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.pojo.Advertisement;
 import org.example.pojo.Result;
 import org.example.service.AdvertisementService;
+import org.example.utils.AIChat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +62,11 @@ public class AdvertisementController {
     public Result deleteAdvertisement(@PathVariable Integer id) {
         advertisementService.deleteById(id);
         return Result.success();
+    }
+
+    @PostMapping("/ai")
+    public Result getAIResponse(@RequestBody Advertisement advertisement) {
+        return Result.success(AIChat.getResponse(advertisement.getTitle()));
     }
 }
 

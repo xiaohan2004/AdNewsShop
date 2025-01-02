@@ -136,6 +136,7 @@
         </el-form-item>
         <el-form-item label="内容">
           <el-input v-model="newAdvertisement.content"></el-input>
+          <el-button type="primary" @click="generateAIContent">AI生成</el-button>
         </el-form-item>
         <el-form-item label="类别">
           <el-select v-model="newAdvertisement.adType" placeholder="选择类别">
@@ -179,8 +180,8 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import {ref, computed, onMounted} from 'vue'
+import {ElMessage} from 'element-plus'
 import api from "@/api/api"
 
 function parseJWT(token) {
@@ -192,7 +193,7 @@ function parseJWT(token) {
   const header = JSON.parse(atob(parts[0]));
   const payload = JSON.parse(atob(parts[1]));
 
-  return { header, payload };
+  return {header, payload};
 }
 
 export default {
@@ -210,6 +211,25 @@ export default {
     })
     const currentPage = ref(1)
     const pageSize = ref(7)
+
+    const generateAIContent = async () => {
+      if (!newAdvertisement.value.title.trim()) {
+        ElMessage.warning('请先输入标题')
+        return
+      }
+
+      ElMessage.info('AI内容正在生成')
+      try {
+        const response = await api.post('/api/advertisements/ai', {
+          title: newAdvertisement.value.title
+        })
+        newAdvertisement.value.content = response.data.data
+        ElMessage.success('AI内容生成成功')
+      } catch (error) {
+        console.error('AI content generation error:', error)
+        ElMessage.error('AI内容生成失败，请稍后重试')
+      }
+    }
 
     // 从 token 中获取 advertiserId
     const token = localStorage.getItem('jwt')
@@ -397,6 +417,7 @@ export default {
       handleCurrentChange,
       handleImageChange,
       handleNewAdvertisementImageChange,
+      generateAIContent,
     }
   }
 }
