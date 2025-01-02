@@ -5,9 +5,6 @@ import CustomerLayout from "@/layout/AdvertiserLayout.vue";
 
 // Import all your view components here (as you had them before)
 
-
-import CustomerUserInfo from "@/views/Advertiser/AdvertiserUserInfo.vue";
-
 import SystemLog from "@/views/Administrator/SystemLog.vue";
 import AdministratorRegister from "@/views/Register/AdministratorRegister.vue";
 import AdvertiserRegister from "@/views/Register/AdvertiserRegister.vue";
@@ -24,6 +21,11 @@ import AdminUserInfo from "@/views/Administrator/AdminUserInfo.vue";
 import AdvertiserLayout from "@/layout/AdvertiserLayout.vue";
 import AdDelivery from "@/views/Advertiser/AdDelivery.vue";
 import AdvertiserUserInfo from "@/views/Advertiser/AdvertiserUserInfo.vue";
+import AdData from "@/views/Advertiser/AdData.vue";
+import WebsiteOperatorLayout from "@/layout/WebsiteOperatorLayout.vue";
+import wbOperatorRevenue from "@/views/websiteOperator/wbOperatorRevenue.vue";
+import wbOperatorAPI from "@/views/websiteOperator/wbOperatorAPI.vue";
+import websiteOperatorInfo from "@/views/websiteOperator/websiteOperatorInfo.vue";
 
 // 定义路由规则
 const routes = [
@@ -55,16 +57,18 @@ const routes = [
         meta: {requiresAuth: true},// meta requiresAuth字段表示该路由需要登录,但是现在导航守卫用的是排除方法
         children: [
             {path: "ad-delivery", name: "AdDelivery", component: AdDelivery},
+            {path: "ad-data", name: "AdData", component: AdData},
             {path: "advertiser-user-info", name: "AdvertiserUserInfo", component: AdvertiserUserInfo},
         ],
     },
     {
-        path: "/customer",
-        component: CustomerLayout,
+        path: "/website-operator",
+        component: WebsiteOperatorLayout,
         meta: {requiresAuth: true},// meta requiresAuth字段表示该路由需要登录,但是现在导航守卫用的是排除方法
         children: [
-            // {path: "order-dishes", name: "OrderDishes", component: OrderDishes},
-            // {path: "customer-user", name: "CustomerUserInfo", component: CustomerUserInfo},
+            {path: "revenue", name: "wbOperatorRevenue", component: wbOperatorRevenue},
+            {path: "api", name: "wbOperatorAPI", component: wbOperatorAPI},
+            {path: "operator-user-info", name: "websiteOperatorInfo", component: websiteOperatorInfo},
         ],
     },
     // 不需要导航栏和侧边栏的页面

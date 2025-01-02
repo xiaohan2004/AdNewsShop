@@ -85,6 +85,30 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="请求次数" prop="requesttimes">
+        <template #default="{ row }">
+          <el-input
+              v-if="row.isEditing"
+              v-model="row.requesttimes"
+              size="small"
+              placeholder="请输入请求次数"
+          ></el-input>
+          <span v-else>{{ row.requesttimes}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="点击次数" prop="clicktimes">
+        <template #default="{ row }">
+          <el-input
+              v-if="row.isEditing"
+              v-model="row.clicktimes"
+              size="small"
+              placeholder="请输入点击次数"
+          ></el-input>
+          <span v-else>{{ row.clicktimes }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作">
         <template #default="scope">
           <el-button
@@ -155,6 +179,12 @@
         <el-form-item label="广告商编号">
           <el-input v-model="newAdvertisement.advertiserId"></el-input>
         </el-form-item>
+        <el-form-item label="请求次数">
+          <el-input v-model="newAdvertisement.requesttimes"></el-input>
+        </el-form-item>
+        <el-form-item label="点击次数">
+          <el-input v-model="newAdvertisement.clicktimes"></el-input>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -183,6 +213,8 @@ export default {
       adType: '',
       imageUrl: '',
       advertiserId: '',
+      requesttimes:0,
+      clicktimes: 0,
     })
     const currentPage = ref(1)
     const pageSize = ref(7)
@@ -260,6 +292,8 @@ export default {
           adType: row.adType,
           imageUrl: row.imageUrl,
           advertiserId: row.advertiserId,
+          requesttimes:row.requesttimes,
+          clicktimes:row.clicktimes,
         })
         if (response.data.code === 1) {
           row.isEditing = false

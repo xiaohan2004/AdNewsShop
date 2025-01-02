@@ -44,53 +44,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="pre1" prop="pre1">
-        <template #default="{ row }">
-          <el-input
-              v-if="row.isEditing"
-              v-model="row.pre1"
-              size="small"
-              placeholder="请输入"
-          ></el-input>
-          <span v-else>{{ row.pre1 }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="pre2" prop="pre2">
-        <template #default="{ row }">
-          <el-input
-              v-if="row.isEditing"
-              v-model="row.pre2"
-              size="small"
-              placeholder="请输入"
-          ></el-input>
-          <span v-else>{{ row.pre2 }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="pre3" prop="pre3">
-        <template #default="{ row }">
-          <el-input
-              v-if="row.isEditing"
-              v-model="row.pre3"
-              size="small"
-              placeholder="请输入"
-          ></el-input>
-          <span v-else>{{ row.pre3 }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="pre4" prop="pre4">
-        <template #default="{ row }">
-          <el-input
-              v-if="row.isEditing"
-              v-model="row.pre4"
-              size="small"
-              placeholder="请输入"
-          ></el-input>
-          <span v-else>{{ row.pre4 }}</span>
-        </template>
-      </el-table-column>
 
       <el-table-column label="游戏" prop="interestGames">
         <template #default="{ row }">
@@ -404,7 +357,7 @@ export default {
         interestSports:0,
       },
       currentPage: 1,
-      pageSize: 8
+      pageSize: 3
     };
   },
   computed: {

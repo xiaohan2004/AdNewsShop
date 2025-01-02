@@ -68,6 +68,42 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="请求次数" prop="requesttimes">
+        <template #default="{ row }">
+          <el-input
+              v-if="row.isEditing"
+              v-model="row.requesttimes"
+              size="small"
+              placeholder="请输入次数"
+          ></el-input>
+          <span v-else>{{ row.requesttimes }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="添加次数" prop="addtimes">
+        <template #default="{ row }">
+          <el-input
+              v-if="row.isEditing"
+              v-model="row.addtimes"
+              size="small"
+              placeholder="请输入次数"
+          ></el-input>
+          <span v-else>{{ row.addtimes }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="点击次数" prop="clicktimes">
+        <template #default="{ row }">
+          <el-input
+              v-if="row.isEditing"
+              v-model="row.clicktimes"
+              size="small"
+              placeholder="请输入次数"
+          ></el-input>
+          <span v-else>{{ row.clicktimes }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="操作">
         <template #default="scope">
           <el-button
@@ -126,6 +162,15 @@
         <el-form-item label="token">
           <el-input v-model="newWebsiteOperator.token"></el-input>
         </el-form-item>
+        <el-form-item label="请求次数">
+          <el-input v-model="newWebsiteOperator.requesttimes"></el-input>
+        </el-form-item>
+        <el-form-item label="添加次数">
+          <el-input v-model="newWebsiteOperator.addtimes"></el-input>
+        </el-form-item>
+        <el-form-item label="点击次数">
+          <el-input v-model="newWebsiteOperator.clicktimes"></el-input>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -155,6 +200,9 @@ export default {
         password: '',
         websiteUrl:'',
         token: '',
+        requesttimes: 0,
+        addtimes: 0,
+        clicktimes: 0,
       },
       currentPage: 1,
       pageSize: 8
@@ -181,6 +229,9 @@ export default {
                 password:websiteOperator.password,
                 websiteUrl: websiteOperator.websiteUrl,
                 token: websiteOperator.token,
+                requesttimes: websiteOperator.requesttimes,
+                addtimes: websiteOperator.addtimes,
+                clicktimes: websiteOperator.clicktimes,
                 isEditing: false,
               }));
               console.log('Total websiteOperators:', this.websiteOperatorData.length);
@@ -204,6 +255,9 @@ export default {
         password: row.password,
         websiteUrl:row.websiteUrl,
         token:row.token,
+        requesttimes: row.requesttimes,
+        addtimes: row.addtimes,
+        clicktimes: row.clicktimes,
       })
           .then(response => {
             if (response.data.code === 1) {
