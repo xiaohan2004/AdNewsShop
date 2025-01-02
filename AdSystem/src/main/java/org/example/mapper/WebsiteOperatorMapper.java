@@ -44,5 +44,8 @@ public interface WebsiteOperatorMapper {
 
     @Update("UPDATE website_operators SET token = #{token} WHERE id = #{id}")
     void reflushTokenById(Integer id, String token);
+
+    @Select("SELECT * FROM website_operators WHERE token = #{token}")
+    WebsiteOperator findByToken(String token);
 }
 

@@ -65,6 +65,10 @@ public class AdController {
 
     @GetMapping("/{id}/{token}")
     public String showPage(@PathVariable Integer id, @PathVariable String token, Model model) {
+        WebsiteOperator websiteOperator = websiteOperatorService.findByToken(token);
+        if (websiteOperator == null) {
+            throw new RuntimeException("Invalid token");
+        }
         if (id <= 0) {
             log.warn("Invalid ad id: {}", id);
             return "404";

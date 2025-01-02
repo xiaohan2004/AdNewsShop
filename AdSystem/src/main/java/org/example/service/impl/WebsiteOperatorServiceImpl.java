@@ -83,5 +83,10 @@ public class WebsiteOperatorServiceImpl implements WebsiteOperatorService {
         websiteOperatorMapper.reflushTokenById(id, token);
         return token;
     }
+
+    @Override
+    public WebsiteOperator findByToken(String token) {
+        return websiteOperatorMapper.findByToken(token);
+    }
 }
 

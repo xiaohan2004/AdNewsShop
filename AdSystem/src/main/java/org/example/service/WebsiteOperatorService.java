@@ -15,5 +15,6 @@ public interface WebsiteOperatorService {
     void addCTByToken(String token);
     void deleteTokenById(Integer id);
     String reflushTokenById(Integer id);
+    WebsiteOperator findByToken(String token);
 }
 

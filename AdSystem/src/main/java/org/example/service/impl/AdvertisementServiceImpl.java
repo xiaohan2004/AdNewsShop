@@ -5,6 +5,7 @@ import org.example.mapper.WebsiteOperatorMapper;
 import org.example.pojo.Advertisement;
 import org.example.mapper.AdvertisementMapper;
 import org.example.pojo.User;
+import org.example.pojo.WebsiteOperator;
 import org.example.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     @Transactional
     public Advertisement getAdsByFP(String fp, String token) {
+        WebsiteOperator websiteOperator = websiteOperatorMapper.findByToken(token);
+        if (websiteOperator == null) {
+            throw new RuntimeException("Invalid token");
+        }
         User user = userMapper.findByFP(fp);
         if (user != null) {
             String interest = userMapper.getInterestByFP(fp);

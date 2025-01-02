@@ -4,6 +4,7 @@ import org.example.mapper.WebsiteOperatorMapper;
 import org.example.pojo.Advertisement;
 import org.example.pojo.User;
 import org.example.mapper.UserMapper;
+import org.example.pojo.WebsiteOperator;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public int addInterestByFP(String fp, String interest, String token) {
+        WebsiteOperator websiteOperator = websiteOperatorMapper.findByToken(token);
+        if (websiteOperator == null) {
+            throw new RuntimeException("Invalid token");
+        }
         User user = userMapper.findByFP(fp);
         interest = "interest_" + interest;
         if (user == null) {
