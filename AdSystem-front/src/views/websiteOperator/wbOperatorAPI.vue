@@ -20,6 +20,9 @@
       </div>
     </div>
     <div v-else class="text-center text-lg font-semibold text-gray-600">未找到运营商信息</div>
+    <div class="text-center text-lg font-semibold text-gray-600">
+      <a href="http://10.100.164.44:8888/js/example.js" class="text-indigo-700">示例代码</a>
+    </div>
   </div>
 </template>
 
