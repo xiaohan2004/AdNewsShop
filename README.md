@@ -5,20 +5,20 @@ AdNewsShop是一个集成了广告推荐系统、新闻资讯平台和电子商�
 
 ## 项目架构
 ### 整体系统部署架构：
-![image](https://github.com/user-attachments/assets/a0402fdf-fa6b-4e6b-9042-6f87a6947212)
+![整体系统部署架构.png](assets/%E6%95%B4%E4%BD%93%E7%B3%BB%E7%BB%9F%E9%83%A8%E7%BD%B2%E6%9E%B6%E6%9E%84.png)
 ### 广告投放与管理系统：
-![image](https://github.com/user-attachments/assets/5646feee-957c-48d0-bd99-e991c09fd8e7)
+![广告投放与管理系统.png](assets/%E5%B9%BF%E5%91%8A%E6%8A%95%E6%94%BE%E4%B8%8E%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.png)
 ### 新闻子系统：
-![image](https://github.com/user-attachments/assets/89ba2a15-8d20-45ae-bc86-4f2abee9f0d9)
+![新闻子系统.png](assets/%E6%96%B0%E9%97%BB%E5%AD%90%E7%B3%BB%E7%BB%9F.png)
 ### 购物子系统1.0：
-![image](https://github.com/user-attachments/assets/b71cd17d-8a1b-4cc7-b995-2ac75c7e8b81)
+![购物子系统1.0.png](assets/%E8%B4%AD%E7%89%A9%E5%AD%90%E7%B3%BB%E7%BB%9F1.0.png)
 ### 购物子系统2.0：
-![image](https://github.com/user-attachments/assets/82b91358-074a-4302-be80-32b29e1a97ea)
+![购物子系统2.0.png](assets/%E8%B4%AD%E7%89%A9%E5%AD%90%E7%B3%BB%E7%BB%9F2.0.png)
 
 
 ## 项目截图
-![image](https://github.com/user-attachments/assets/3650ce2d-1028-45ea-8dd4-42eca36f912b)
-![image](https://github.com/user-attachments/assets/93a2fd72-863a-41f5-8a14-c05e6ccba320)
+![项目截图1.png](assets/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE1.png)
+![项目截图2.png](assets/%E9%A1%B9%E7%9B%AE%E6%88%AA%E5%9B%BE2.png)
 
 ## 注意事项
 项目中的百度智能云千帆AI API Key 已失效，无泄露风险。
